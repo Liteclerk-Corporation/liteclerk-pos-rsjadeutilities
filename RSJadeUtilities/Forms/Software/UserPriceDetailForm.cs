@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace RSJadeUtilities.Forms.Software
 {
-    public partial class SysSoftwareForm : Form
+    public partial class UserPriceDetailForm : Form
     {
-        public SysSoftwareForm()
+        public UserPriceDetailForm()
         {
             InitializeComponent();
         }
