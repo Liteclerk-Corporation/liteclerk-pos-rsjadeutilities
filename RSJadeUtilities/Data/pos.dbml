@@ -373,6 +373,7 @@
       <Association Name="MstUser_MstSupplier" Member="MstSuppliers" ThisKey="Id" OtherKey="EntryUserId" Type="MstSupplier" />
       <Association Name="MstUser_MstSupplier1" Member="MstSuppliers1" ThisKey="Id" OtherKey="UpdateUserId" Type="MstSupplier" />
       <Association Name="MstUser_MstUserForm" Member="MstUserForms" ThisKey="Id" OtherKey="UserId" Type="MstUserForm" />
+      <Association Name="MstUser_MstUserPrice" Member="MstUserPrices" ThisKey="Id" OtherKey="UserId" Type="MstUserPrice" />
       <Association Name="MstUser_SysAuditTrail" Member="SysAuditTrails" ThisKey="Id" OtherKey="UserId" Type="SysAuditTrail" />
       <Association Name="MstUser_SysSalesLocked" Member="SysSalesLockeds" ThisKey="Id" OtherKey="UserId" Type="SysSalesLocked" />
       <Association Name="MstUser_TrnCollection" Member="TrnCollections" ThisKey="Id" OtherKey="PreparedBy" Type="TrnCollection" />
@@ -427,6 +428,14 @@
       <Column Name="CanCancel" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="CanReturn" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="MstUser_MstUserForm" Member="MstUser" ThisKey="UserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstUserPrice" Member="MstUserPrices">
+    <Type Name="MstUserPrice">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PriceDescription" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="MstUser_MstUserPrice" Member="MstUser" ThisKey="UserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.SysAuditTrail" Member="SysAuditTrails">

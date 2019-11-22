@@ -99,6 +99,9 @@ namespace RSJadeUtilities.Data
     partial void InsertMstUserForm(MstUserForm instance);
     partial void UpdateMstUserForm(MstUserForm instance);
     partial void DeleteMstUserForm(MstUserForm instance);
+    partial void InsertMstUserPrice(MstUserPrice instance);
+    partial void UpdateMstUserPrice(MstUserPrice instance);
+    partial void DeleteMstUserPrice(MstUserPrice instance);
     partial void InsertSysAuditTrail(SysAuditTrail instance);
     partial void UpdateSysAuditTrail(SysAuditTrail instance);
     partial void DeleteSysAuditTrail(SysAuditTrail instance);
@@ -372,6 +375,14 @@ namespace RSJadeUtilities.Data
 			get
 			{
 				return this.GetTable<MstUserForm>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MstUserPrice> MstUserPrices
+		{
+			get
+			{
+				return this.GetTable<MstUserPrice>();
 			}
 		}
 		
@@ -8691,6 +8702,8 @@ namespace RSJadeUtilities.Data
 		
 		private EntitySet<MstUserForm> _MstUserForms;
 		
+		private EntitySet<MstUserPrice> _MstUserPrices;
+		
 		private EntitySet<SysAuditTrail> _SysAuditTrails;
 		
 		private EntitySet<SysSalesLocked> _SysSalesLockeds;
@@ -8794,6 +8807,7 @@ namespace RSJadeUtilities.Data
 			this._MstSuppliers = new EntitySet<MstSupplier>(new Action<MstSupplier>(this.attach_MstSuppliers), new Action<MstSupplier>(this.detach_MstSuppliers));
 			this._MstSuppliers1 = new EntitySet<MstSupplier>(new Action<MstSupplier>(this.attach_MstSuppliers1), new Action<MstSupplier>(this.detach_MstSuppliers1));
 			this._MstUserForms = new EntitySet<MstUserForm>(new Action<MstUserForm>(this.attach_MstUserForms), new Action<MstUserForm>(this.detach_MstUserForms));
+			this._MstUserPrices = new EntitySet<MstUserPrice>(new Action<MstUserPrice>(this.attach_MstUserPrices), new Action<MstUserPrice>(this.detach_MstUserPrices));
 			this._SysAuditTrails = new EntitySet<SysAuditTrail>(new Action<SysAuditTrail>(this.attach_SysAuditTrails), new Action<SysAuditTrail>(this.detach_SysAuditTrails));
 			this._SysSalesLockeds = new EntitySet<SysSalesLocked>(new Action<SysSalesLocked>(this.attach_SysSalesLockeds), new Action<SysSalesLocked>(this.detach_SysSalesLockeds));
 			this._TrnCollections = new EntitySet<TrnCollection>(new Action<TrnCollection>(this.attach_TrnCollections), new Action<TrnCollection>(this.detach_TrnCollections));
@@ -9144,6 +9158,19 @@ namespace RSJadeUtilities.Data
 			set
 			{
 				this._MstUserForms.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstUserPrice", Storage="_MstUserPrices", ThisKey="Id", OtherKey="UserId")]
+		public EntitySet<MstUserPrice> MstUserPrices
+		{
+			get
+			{
+				return this._MstUserPrices;
+			}
+			set
+			{
+				this._MstUserPrices.Assign(value);
 			}
 		}
 		
@@ -9699,6 +9726,18 @@ namespace RSJadeUtilities.Data
 		}
 		
 		private void detach_MstUserForms(MstUserForm entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
+		}
+		
+		private void attach_MstUserPrices(MstUserPrice entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_MstUserPrices(MstUserPrice entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstUser = null;
@@ -10532,6 +10571,157 @@ namespace RSJadeUtilities.Data
 					if ((value != null))
 					{
 						value.MstUserForms.Add(this);
+						this._UserId = value.Id;
+					}
+					else
+					{
+						this._UserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstUserPrice")]
+	public partial class MstUserPrice : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _UserId;
+		
+		private string _PriceDescription;
+		
+		private EntityRef<MstUser> _MstUser;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnPriceDescriptionChanging(string value);
+    partial void OnPriceDescriptionChanged();
+    #endregion
+		
+		public MstUserPrice()
+		{
+			this._MstUser = default(EntityRef<MstUser>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PriceDescription", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string PriceDescription
+		{
+			get
+			{
+				return this._PriceDescription;
+			}
+			set
+			{
+				if ((this._PriceDescription != value))
+				{
+					this.OnPriceDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._PriceDescription = value;
+					this.SendPropertyChanged("PriceDescription");
+					this.OnPriceDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstUserPrice", Storage="_MstUser", ThisKey="UserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.MstUserPrices.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.MstUserPrices.Add(this);
 						this._UserId = value.Id;
 					}
 					else
