@@ -20,7 +20,7 @@ namespace RSJadeUtilities.Forms.Software
             GetUsers();
         }
 
-        public Data.posDataContext db = new Data.posDataContext();
+        public Data.posDataContext db = new Data.posDataContext(Modules.SysConnectionStringModule.GetConnectionString());
 
         private static List<DataGridViewModels.DgvUserPriceListModel> userPriceListData = new List<DataGridViewModels.DgvUserPriceListModel>();
         private static Int32 pageNumber = 1, pageSize = 50;

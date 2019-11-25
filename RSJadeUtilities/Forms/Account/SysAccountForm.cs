@@ -17,7 +17,7 @@ namespace RSJadeUtilities.Forms.Account
             InitializeComponent();
         }
 
-        public Data.posDataContext db = new Data.posDataContext();
+        public Data.posDataContext db = new Data.posDataContext(Modules.SysConnectionStringModule.GetConnectionString());
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {

@@ -25,7 +25,7 @@ namespace RSJadeUtilities.Forms.Software
             GetItemPriceDescriptions();
         }
 
-        public Data.posDataContext db = new Data.posDataContext();
+        public Data.posDataContext db = new Data.posDataContext(Modules.SysConnectionStringModule.GetConnectionString());
 
         public void GetItemPriceDescriptions()
         {

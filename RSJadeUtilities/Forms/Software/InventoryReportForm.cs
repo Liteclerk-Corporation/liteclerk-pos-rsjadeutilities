@@ -21,7 +21,7 @@ namespace RSJadeUtilities.Forms.Software
             GetSuppliers();
         }
 
-        public Data.posDataContext db = new Data.posDataContext();
+        public Data.posDataContext db = new Data.posDataContext(Modules.SysConnectionStringModule.GetConnectionString());
 
         private static List<DataGridViewModels.DgvInventoryReportListModel> inventoryReportListData = new List<DataGridViewModels.DgvInventoryReportListModel>();
         private static Int32 pageNumber = 1, pageSize = 50;
