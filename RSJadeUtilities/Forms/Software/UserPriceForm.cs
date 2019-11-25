@@ -292,6 +292,5 @@ namespace RSJadeUtilities.Forms.Software
             pageNumber = userPriceListPageList.PageCount;
             textBoxUserPricePageNumber.Text = pageNumber + " / " + userPriceListPageList.PageCount;
         }
-
     }
 }

@@ -20516,7 +20516,7 @@ namespace RSJadeUtilities.Data
 		
 		private int _ApprovedBy;
 		
-		private int _IsLocked;
+		private bool _IsLocked;
 		
 		private int _EntryUserId;
 		
@@ -20566,7 +20566,7 @@ namespace RSJadeUtilities.Data
     partial void OnCheckedByChanged();
     partial void OnApprovedByChanging(int value);
     partial void OnApprovedByChanged();
-    partial void OnIsLockedChanging(int value);
+    partial void OnIsLockedChanging(bool value);
     partial void OnIsLockedChanged();
     partial void OnEntryUserIdChanging(int value);
     partial void OnEntryUserIdChanged();
@@ -20834,8 +20834,8 @@ namespace RSJadeUtilities.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLocked", DbType="Int NOT NULL")]
-		public int IsLocked
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLocked", DbType="Bit NOT NULL")]
+		public bool IsLocked
 		{
 			get
 			{

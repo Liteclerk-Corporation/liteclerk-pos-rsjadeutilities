@@ -66,5 +66,10 @@ namespace RSJadeUtilities.Forms.Account
                 login();
             }
         }
+
+        private void SysAccountForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }
