@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -296,7 +297,7 @@ namespace RSJadeUtilities.Forms.Software
                                           OutQuantity = g.Sum(s => s.Document == "Cur" ? s.OutQuantity : 0),
                                           EndingQuantity = g.Sum(s => s.Document == "Beg" ? (s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity : 0) +
                                                            g.Sum(s => s.Document == "Cur" ? s.InQuantity : 0) +
-                                                           g.Sum(s => s.Document == "Cur" ? s.ReturnQuantity : 0) - 
+                                                           g.Sum(s => s.Document == "Cur" ? s.ReturnQuantity : 0) -
                                                            g.Sum(s => s.Document == "Cur" ? s.SoldQuantity : 0) -
                                                            g.Sum(s => s.Document == "Cur" ? s.OutQuantity : 0),
                                           Unit = g.Key.Unit,
@@ -460,17 +461,17 @@ namespace RSJadeUtilities.Forms.Software
 
         private void dateTimePickerDateStart_ValueChanged(object sender, EventArgs e)
         {
-            //UpdateInventoryReportDataSource();
+
         }
 
         private void dateTimePickerDateEnd_ValueChanged(object sender, EventArgs e)
         {
-            //UpdateInventoryReportDataSource();
+
         }
 
         private void comboBoxSupplier_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //UpdateInventoryReportDataSource();
+
         }
 
         private void buttonGet_Click(object sender, EventArgs e)
@@ -483,7 +484,64 @@ namespace RSJadeUtilities.Forms.Software
 
         private void buttonCSV_Click(object sender, EventArgs e)
         {
+            try
+            {
+                String filename = "";
 
+                SaveFileDialog sfd = new SaveFileDialog
+                {
+                    Filter = "CSV (*.csv)|*.csv",
+                    FileName = "InventoryReport_" + DateTime.Now.ToString("MMddyyyyhhmmss") + ".csv"
+                };
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(filename))
+                    {
+                        try
+                        {
+                            File.Delete(filename);
+                        }
+                        catch (IOException ex)
+                        {
+                            MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+
+                    Int32 columnCount = dataGridViewInventoryReport.ColumnCount;
+
+                    String columnNames = "";
+                    String[] output = new String[dataGridViewInventoryReport.RowCount + 1];
+
+                    for (Int32 i = 0; i < columnCount; i++)
+                    {
+                        columnNames += dataGridViewInventoryReport.Columns[i].Name.ToString().Substring(19) + ",";
+                    }
+
+                    output[0] += columnNames;
+                    for (Int32 i = 1; (i - 1) < dataGridViewInventoryReport.RowCount; i++)
+                    {
+                        for (Int32 j = 0; j < columnCount; j++)
+                        {
+                            String data = "NA";
+                            if (dataGridViewInventoryReport.Rows[i - 1].Cells[j].Value != null)
+                            {
+                                data = dataGridViewInventoryReport.Rows[i - 1].Cells[j].Value.ToString().Replace(",", "");
+                            }
+
+                            output[i] += data + ",";
+                        }
+                    }
+
+                    File.WriteAllLines(sfd.FileName, output, Encoding.UTF8);
+
+                    MessageBox.Show("Your file was successfully generated and its ready for use.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
