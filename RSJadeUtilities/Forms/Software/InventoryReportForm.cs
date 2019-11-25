@@ -27,6 +27,8 @@ namespace RSJadeUtilities.Forms.Software
         private static Int32 pageNumber = 1, pageSize = 50;
         private PagedList<DataGridViewModels.DgvInventoryReportListModel> inventoryReportListPageList = new PagedList<DataGridViewModels.DgvInventoryReportListModel>(inventoryReportListData, pageNumber, pageSize);
 
+        public Boolean isInventoryFetched = false;
+
         private void InventoryReportForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             MenuForm menuForm = new MenuForm();
@@ -55,8 +57,6 @@ namespace RSJadeUtilities.Forms.Software
                     menuForm.Show();
                 }
             }
-
-            CreateInventoryReportDataGridView();
         }
 
 
@@ -128,56 +128,29 @@ namespace RSJadeUtilities.Forms.Software
         {
             List<Models.MstInventoryReportModel> newRepInventoryReportEntity = new List<Models.MstInventoryReportModel>();
 
-            var inQuantityInventories = from d in db.TrnStockInLines
-                                        where d.TrnStockIn.IsLocked == true
-                                        && d.TrnStockIn.IsReturn == false
-                                        && d.MstItem.DefaultSupplierId == supplierId
-                                        select new Models.MstInventoryReportModel
-                                        {
-                                            Id = d.Id,
-                                            InventoryDate = d.TrnStockIn.StockInDate,
-                                            Barcode = d.MstItem.BarCode,
-                                            ItemDescription = d.MstItem.ItemDescription,
-                                            BeginningQuantity = 0,
-                                            InQuantity = d.Quantity,
-                                            ReturnQuantity = 0,
-                                            SoldQuantity = 0,
-                                            OutQuantity = 0,
-                                            EndingQuantity = 0,
-                                            Unit = d.MstUnit.Unit,
-                                            Cost = d.MstItem.Cost,
-                                            Amount = 0
-                                        };
+            var inAndReturnQuantityInventories = from d in db.TrnStockInLines
+                                                 where d.TrnStockIn.IsLocked == true
+                                                 && d.MstItem.DefaultSupplierId == supplierId
+                                                 select new Models.MstInventoryReportModel
+                                                 {
+                                                     Id = d.Id,
+                                                     InventoryDate = d.TrnStockIn.StockInDate,
+                                                     Barcode = d.MstItem.BarCode,
+                                                     ItemDescription = d.MstItem.ItemDescription,
+                                                     BeginningQuantity = 0,
+                                                     InQuantity = d.TrnStockIn.IsReturn == false ? d.Quantity : 0,
+                                                     ReturnQuantity = d.TrnStockIn.IsReturn == true ? d.Quantity : 0,
+                                                     SoldQuantity = 0,
+                                                     OutQuantity = 0,
+                                                     EndingQuantity = 0,
+                                                     Unit = d.MstUnit.Unit,
+                                                     Cost = d.MstItem.Cost,
+                                                     Amount = 0
+                                                 };
 
-            if (inQuantityInventories.Any())
+            if (inAndReturnQuantityInventories.Any())
             {
-                newRepInventoryReportEntity.AddRange(inQuantityInventories.ToList());
-            }
-
-            var returnQuantityInventories = from d in db.TrnStockInLines
-                                            where d.TrnStockIn.IsLocked == true
-                                            && d.TrnStockIn.IsReturn == true
-                                            && d.MstItem.DefaultSupplierId == supplierId
-                                            select new Models.MstInventoryReportModel
-                                            {
-                                                Id = d.Id,
-                                                InventoryDate = d.TrnStockIn.StockInDate,
-                                                Barcode = d.MstItem.BarCode,
-                                                ItemDescription = d.MstItem.ItemDescription,
-                                                BeginningQuantity = 0,
-                                                InQuantity = 0,
-                                                ReturnQuantity = d.Quantity,
-                                                SoldQuantity = 0,
-                                                OutQuantity = 0,
-                                                EndingQuantity = 0,
-                                                Unit = d.MstUnit.Unit,
-                                                Cost = d.MstItem.Cost,
-                                                Amount = 0
-                                            };
-
-            if (returnQuantityInventories.Any())
-            {
-                newRepInventoryReportEntity.AddRange(returnQuantityInventories.ToList());
+                newRepInventoryReportEntity.AddRange(inAndReturnQuantityInventories.ToList());
             }
 
             var soldQuantityInventories = from d in db.TrnSalesLines
@@ -479,7 +452,15 @@ namespace RSJadeUtilities.Forms.Software
             buttonGet.Text = "Loading...";
             buttonGet.Enabled = false;
 
-            UpdateInventoryReportDataSource();
+            if (isInventoryFetched == false)
+            {
+                isInventoryFetched = true;
+                CreateInventoryReportDataGridView();
+            }
+            else
+            {
+                UpdateInventoryReportDataSource();
+            }
         }
 
         private void buttonCSV_Click(object sender, EventArgs e)
