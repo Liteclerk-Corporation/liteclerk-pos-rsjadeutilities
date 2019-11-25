@@ -47,6 +47,9 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingSourceUserPrice = new System.Windows.Forms.BindingSource(this.components);
+            this.UserPriceButtonDelete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.UserPriceListId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UserPriceListPriceDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -92,6 +95,7 @@
             // 
             // comboBoxUsers
             // 
+            this.comboBoxUsers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxUsers.FormattingEnabled = true;
             this.comboBoxUsers.Location = new System.Drawing.Point(12, 32);
             this.comboBoxUsers.Name = "comboBoxUsers";
@@ -126,6 +130,7 @@
             this.buttonUserPricePageListFirst.TabIndex = 13;
             this.buttonUserPricePageListFirst.Text = "First";
             this.buttonUserPricePageListFirst.UseVisualStyleBackColor = false;
+            this.buttonUserPricePageListFirst.Click += new System.EventHandler(this.buttonUserPricePageListFirst_Click);
             // 
             // buttonUserPricePageListPrevious
             // 
@@ -140,6 +145,7 @@
             this.buttonUserPricePageListPrevious.TabIndex = 14;
             this.buttonUserPricePageListPrevious.Text = "Previous";
             this.buttonUserPricePageListPrevious.UseVisualStyleBackColor = false;
+            this.buttonUserPricePageListPrevious.Click += new System.EventHandler(this.buttonUserPricePageListPrevious_Click);
             // 
             // buttonUserPricePageListNext
             // 
@@ -153,6 +159,7 @@
             this.buttonUserPricePageListNext.TabIndex = 15;
             this.buttonUserPricePageListNext.Text = "Next";
             this.buttonUserPricePageListNext.UseVisualStyleBackColor = false;
+            this.buttonUserPricePageListNext.Click += new System.EventHandler(this.buttonUserPricePageListNext_Click);
             // 
             // buttonUserPricePageListLast
             // 
@@ -166,6 +173,7 @@
             this.buttonUserPricePageListLast.TabIndex = 16;
             this.buttonUserPricePageListLast.Text = "Last";
             this.buttonUserPricePageListLast.UseVisualStyleBackColor = false;
+            this.buttonUserPricePageListLast.Click += new System.EventHandler(this.buttonUserPricePageListLast_Click);
             // 
             // textBoxUserPricePageNumber
             // 
@@ -182,16 +190,25 @@
             // 
             // dataGridViewUserPrice
             // 
+            this.dataGridViewUserPrice.AllowUserToAddRows = false;
+            this.dataGridViewUserPrice.AllowUserToDeleteRows = false;
             this.dataGridViewUserPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewUserPrice.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridViewUserPrice.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewUserPrice.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.UserPriceButtonDelete,
+            this.UserPriceListId,
+            this.UserPriceListPriceDescription});
             this.dataGridViewUserPrice.Location = new System.Drawing.Point(12, 73);
             this.dataGridViewUserPrice.Name = "dataGridViewUserPrice";
+            this.dataGridViewUserPrice.ReadOnly = true;
             this.dataGridViewUserPrice.RowTemplate.Height = 24;
+            this.dataGridViewUserPrice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewUserPrice.Size = new System.Drawing.Size(953, 439);
             this.dataGridViewUserPrice.TabIndex = 8;
+            this.dataGridViewUserPrice.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewUserPrice_CellClick);
             // 
             // buttonAdd
             // 
@@ -244,6 +261,30 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "User Price";
             // 
+            // UserPriceButtonDelete
+            // 
+            this.UserPriceButtonDelete.DataPropertyName = "UserPriceButtonDelete";
+            this.UserPriceButtonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.UserPriceButtonDelete.HeaderText = "Delete";
+            this.UserPriceButtonDelete.Name = "UserPriceButtonDelete";
+            this.UserPriceButtonDelete.ReadOnly = true;
+            // 
+            // UserPriceListId
+            // 
+            this.UserPriceListId.DataPropertyName = "UserPriceListId";
+            this.UserPriceListId.HeaderText = "Id";
+            this.UserPriceListId.Name = "UserPriceListId";
+            this.UserPriceListId.ReadOnly = true;
+            this.UserPriceListId.Visible = false;
+            // 
+            // UserPriceListPriceDescription
+            // 
+            this.UserPriceListPriceDescription.DataPropertyName = "UserPriceListPriceDescription";
+            this.UserPriceListPriceDescription.HeaderText = "Price Description";
+            this.UserPriceListPriceDescription.Name = "UserPriceListPriceDescription";
+            this.UserPriceListPriceDescription.ReadOnly = true;
+            this.UserPriceListPriceDescription.Width = 350;
+            // 
             // UserPriceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -293,5 +334,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxUsers;
         private System.Windows.Forms.BindingSource bindingSourceUserPrice;
+        private System.Windows.Forms.DataGridViewButtonColumn UserPriceButtonDelete;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UserPriceListId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UserPriceListPriceDescription;
     }
 }

@@ -34,7 +34,9 @@ namespace RSJadeUtilities.Forms.Software
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            UserPriceDetailForm userPriceDetailForm = new UserPriceDetailForm();
+            Int32 userId = Convert.ToInt32(comboBoxUsers.SelectedValue);
+
+            UserPriceDetailForm userPriceDetailForm = new UserPriceDetailForm(this, userId);
             userPriceDetailForm.ShowDialog();
         }
 
@@ -58,18 +60,27 @@ namespace RSJadeUtilities.Forms.Software
             }
             else
             {
+                DialogResult emptyUsers = MessageBox.Show("Empty Users", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (emptyUsers == DialogResult.OK)
+                {
+                    Close();
 
+                    MenuForm menuForm = new MenuForm();
+                    menuForm.Show();
+                }
             }
         }
 
         public void UpdateUserPriceDataSource()
         {
-            SetUserPriceDataSourceAsync();
+            Int32 userId = Convert.ToInt32(comboBoxUsers.SelectedValue);
+
+            SetUserPriceDataSourceAsync(userId);
         }
 
-        public async void SetUserPriceDataSourceAsync()
+        public async void SetUserPriceDataSourceAsync(Int32 userId)
         {
-            List<DataGridViewModels.DgvUserPriceListModel> getUserPriceData = await GetUserPriceDataTask();
+            List<DataGridViewModels.DgvUserPriceListModel> getUserPriceData = await GetUserPriceDataTask(userId);
             if (getUserPriceData.Any())
             {
                 userPriceListData = getUserPriceData;
@@ -122,34 +133,29 @@ namespace RSJadeUtilities.Forms.Software
             }
         }
 
-        private List<Models.MstUserPriceModel> GetUserPriceList()
+        private List<Models.MstUserPriceModel> GetUserPriceList(Int32 userId)
         {
             var userPrices = from d in db.MstUserPrices
-                             where d.UserId == Convert.ToInt32(comboBoxUsers.SelectedValue)
+                             where d.UserId == userId
                              select new Models.MstUserPriceModel
                              {
                                  Id = d.Id,
-                                 UserId = d.UserId,
-                                 FullName = d.MstUser.FullName,
                                  PriceDescription = d.PriceDescription
                              };
 
             return userPrices.ToList();
         }
 
-        private Task<List<DataGridViewModels.DgvUserPriceListModel>> GetUserPriceDataTask()
+        private Task<List<DataGridViewModels.DgvUserPriceListModel>> GetUserPriceDataTask(Int32 userId)
         {
-            List<Models.MstUserPriceModel> listUserPrice = GetUserPriceList();
+            List<Models.MstUserPriceModel> listUserPrice = GetUserPriceList(userId);
             if (listUserPrice.Any())
             {
                 var items = from d in listUserPrice
                             select new DataGridViewModels.DgvUserPriceListModel
                             {
-                                UserPriceButtonEdit = "Edit",
                                 UserPriceButtonDelete = "Delete",
                                 UserPriceListId = d.Id,
-                                UserPriceListUserId = d.UserId,
-                                UserPriceListUserFullName = d.FullName,
                                 UserPriceListPriceDescription = d.PriceDescription
                             };
 
@@ -165,13 +171,9 @@ namespace RSJadeUtilities.Forms.Software
         {
             UpdateUserPriceDataSource();
 
-            //dataGridViewUserPrice.Columns[0].DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#01A6F0");
-            //dataGridViewUserPrice.Columns[0].DefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#01A6F0");
-            //dataGridViewUserPrice.Columns[0].DefaultCellStyle.ForeColor = Color.White;
-
-            //dataGridViewUserPrice.Columns[1].DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#F34F1C");
-            //dataGridViewUserPrice.Columns[1].DefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#F34F1C");
-            //dataGridViewUserPrice.Columns[1].DefaultCellStyle.ForeColor = Color.White;
+            dataGridViewUserPrice.Columns[0].DefaultCellStyle.BackColor = ColorTranslator.FromHtml("#F34F1C");
+            dataGridViewUserPrice.Columns[0].DefaultCellStyle.SelectionBackColor = ColorTranslator.FromHtml("#F34F1C");
+            dataGridViewUserPrice.Columns[0].DefaultCellStyle.ForeColor = Color.White;
 
             dataGridViewUserPrice.DataSource = bindingSourceUserPrice;
         }
@@ -181,9 +183,115 @@ namespace RSJadeUtilities.Forms.Software
 
         }
 
+        private void dataGridViewUserPrice_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                if (e.RowIndex > -1 && dataGridViewUserPrice.CurrentCell.ColumnIndex == dataGridViewUserPrice.Columns["UserPriceButtonDelete"].Index)
+                {
+                    DialogResult deleteDialogResult = MessageBox.Show("Delete Price?", "Easy POS", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (deleteDialogResult == DialogResult.Yes)
+                    {
+                        Int32 userPriceId = Convert.ToInt32(dataGridViewUserPrice.Rows[e.RowIndex].Cells[dataGridViewUserPrice.Columns["UserPriceListId"].Index].Value);
+
+                        var userPrice = from d in db.MstUserPrices
+                                        where d.Id == userPriceId
+                                        select d;
+
+                        if (userPrice.Any())
+                        {
+                            var deletePrice = userPrice.FirstOrDefault();
+
+                            db.MstUserPrices.DeleteOnSubmit(deletePrice);
+                            db.SubmitChanges();
+
+                            UpdateUserPriceDataSource();
+                        }
+                        else
+                        {
+                            MessageBox.Show("User price not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void comboBoxUsers_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateUserPriceDataSource();
         }
+
+        private void buttonUserPricePageListFirst_Click(object sender, EventArgs e)
+        {
+            userPriceListPageList = new PagedList<DataGridViewModels.DgvUserPriceListModel>(userPriceListData, 1, pageSize);
+            bindingSourceUserPrice.DataSource = userPriceListPageList;
+
+            buttonUserPricePageListFirst.Enabled = false;
+            buttonUserPricePageListPrevious.Enabled = false;
+            buttonUserPricePageListNext.Enabled = true;
+            buttonUserPricePageListLast.Enabled = true;
+
+            pageNumber = 1;
+            textBoxUserPricePageNumber.Text = pageNumber + " / " + userPriceListPageList.PageCount;
+        }
+
+        private void buttonUserPricePageListPrevious_Click(object sender, EventArgs e)
+        {
+            if (userPriceListPageList.HasPreviousPage == true)
+            {
+                userPriceListPageList = new PagedList<DataGridViewModels.DgvUserPriceListModel>(userPriceListData, --pageNumber, pageSize);
+                bindingSourceUserPrice.DataSource = userPriceListPageList;
+            }
+
+            buttonUserPricePageListNext.Enabled = true;
+            buttonUserPricePageListLast.Enabled = true;
+
+            if (pageNumber == 1)
+            {
+                buttonUserPricePageListFirst.Enabled = false;
+                buttonUserPricePageListPrevious.Enabled = false;
+            }
+
+            textBoxUserPricePageNumber.Text = pageNumber + " / " + userPriceListPageList.PageCount;
+        }
+
+        private void buttonUserPricePageListNext_Click(object sender, EventArgs e)
+        {
+            if (userPriceListPageList.HasNextPage == true)
+            {
+                userPriceListPageList = new PagedList<DataGridViewModels.DgvUserPriceListModel>(userPriceListData, ++pageNumber, pageSize);
+                bindingSourceUserPrice.DataSource = userPriceListPageList;
+            }
+
+            buttonUserPricePageListFirst.Enabled = true;
+            buttonUserPricePageListPrevious.Enabled = true;
+
+            if (pageNumber == userPriceListPageList.PageCount)
+            {
+                buttonUserPricePageListNext.Enabled = false;
+                buttonUserPricePageListLast.Enabled = false;
+            }
+
+            textBoxUserPricePageNumber.Text = pageNumber + " / " + userPriceListPageList.PageCount;
+        }
+
+        private void buttonUserPricePageListLast_Click(object sender, EventArgs e)
+        {
+            userPriceListPageList = new PagedList<DataGridViewModels.DgvUserPriceListModel>(userPriceListData, userPriceListPageList.PageCount, pageSize);
+            bindingSourceUserPrice.DataSource = userPriceListPageList;
+
+            buttonUserPricePageListFirst.Enabled = true;
+            buttonUserPricePageListPrevious.Enabled = true;
+            buttonUserPricePageListNext.Enabled = false;
+            buttonUserPricePageListLast.Enabled = false;
+
+            pageNumber = userPriceListPageList.PageCount;
+            textBoxUserPricePageNumber.Text = pageNumber + " / " + userPriceListPageList.PageCount;
+        }
+
     }
 }
