@@ -47,14 +47,14 @@ namespace RSJadeUtilities.Forms.Software
                         select new
                         {
                             d.Id,
-                            d.FullName
+                            d.UserName
                         };
 
             if (users.Any())
             {
                 comboBoxUsers.DataSource = users;
                 comboBoxUsers.ValueMember = "Id";
-                comboBoxUsers.DisplayMember = "FullName";
+                comboBoxUsers.DisplayMember = "UserName";
 
                 CreateUserPriceDataGridView();
             }

@@ -9,7 +9,7 @@ namespace RSJadeUtilities.Models
     class MstInventoryReportModel
     {
         public String Document { get; set; }
-        public Int32 Id { get; set; }
+        public String Id { get; set; }
         public DateTime InventoryDate { get; set; }
         public String Barcode { get; set; }
         public String ItemDescription { get; set; }
