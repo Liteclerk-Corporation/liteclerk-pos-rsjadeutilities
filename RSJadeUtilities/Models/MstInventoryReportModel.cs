@@ -11,6 +11,7 @@ namespace RSJadeUtilities.Models
         public String Document { get; set; }
         public String Id { get; set; }
         public DateTime InventoryDate { get; set; }
+        public String Supplier { get; set; }
         public String Barcode { get; set; }
         public String ItemDescription { get; set; }
         public Decimal BeginningQuantity { get; set; }

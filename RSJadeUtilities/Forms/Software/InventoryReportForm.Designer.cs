@@ -63,6 +63,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingSourceInventoryReport = new System.Windows.Forms.BindingSource(this.components);
+            this.InventoryReportListSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InventoryReportListBarcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InventoryReportListItemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InventoryReportListBeginningQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -133,6 +134,7 @@
             this.dataGridViewInventoryReport.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridViewInventoryReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewInventoryReport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.InventoryReportListSupplier,
             this.InventoryReportListBarcode,
             this.InventoryReportListItemDescription,
             this.InventoryReportListBeginningQuantity,
@@ -378,6 +380,14 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Inventory Report";
             // 
+            // InventoryReportListSupplier
+            // 
+            this.InventoryReportListSupplier.DataPropertyName = "InventoryReportListSupplier";
+            this.InventoryReportListSupplier.HeaderText = "Supplier";
+            this.InventoryReportListSupplier.Name = "InventoryReportListSupplier";
+            this.InventoryReportListSupplier.ReadOnly = true;
+            this.InventoryReportListSupplier.Width = 150;
+            // 
             // InventoryReportListBarcode
             // 
             this.InventoryReportListBarcode.DataPropertyName = "InventoryReportListBarcode";
@@ -528,6 +538,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListSupplier;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListBarcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListItemDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListBeginningQuantity;

@@ -25,6 +25,7 @@
       <Association Name="MstAccount_TrnSalesLine3" Member="TrnSalesLines3" ThisKey="Id" OtherKey="TaxAccountId" Type="TrnSalesLine" />
       <Association Name="MstAccount_TrnStockInLine" Member="TrnStockInLines" ThisKey="Id" OtherKey="AssetAccountId" Type="TrnStockInLine" />
       <Association Name="MstAccount_TrnStockOut" Member="TrnStockOuts" ThisKey="Id" OtherKey="AccountId" Type="TrnStockOut" />
+      <Association Name="MstAccount_MstSupplier1" Member="MstSupplier1s" ThisKey="Id" OtherKey="AccountId" Type="MstSupplier1" />
     </Type>
   </Table>
   <Table Name="dbo.TrnStockOutLine" Member="TrnStockOutLines">
@@ -165,6 +166,7 @@
       <Association Name="MstUnit_MstItem" Member="MstUnit" ThisKey="UnitId" OtherKey="Id" Type="MstUnit" IsForeignKey="true" />
       <Association Name="MstUser_MstItem" Member="MstUser" ThisKey="EntryUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstUser_MstItem1" Member="MstUser1" ThisKey="UpdateUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstSupplier1_MstItem" Member="MstSupplier1" ThisKey="DefaultSupplierId" OtherKey="Id" Type="MstSupplier1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.MstItemComponent" Member="MstItemComponents">
@@ -329,6 +331,7 @@
       <Association Name="MstTerm_MstCustomer" Member="MstCustomers" ThisKey="Id" OtherKey="TermId" Type="MstCustomer" />
       <Association Name="MstTerm_MstSupplier" Member="MstSuppliers" ThisKey="Id" OtherKey="TermId" Type="MstSupplier" />
       <Association Name="MstTerm_TrnSale" Member="TrnSales" ThisKey="Id" OtherKey="TermId" Type="TrnSale" />
+      <Association Name="MstTerm_MstSupplier1" Member="MstSupplier1s" ThisKey="Id" OtherKey="TermId" Type="MstSupplier1" />
     </Type>
   </Table>
   <Table Name="dbo.MstTerminal" Member="MstTerminals">
@@ -407,6 +410,8 @@
       <Association Name="MstUser_TrnStockOut2" Member="TrnStockOuts2" ThisKey="Id" OtherKey="ApprovedBy" Type="TrnStockOut" />
       <Association Name="MstUser_TrnStockOut3" Member="TrnStockOuts3" ThisKey="Id" OtherKey="EntryUserId" Type="TrnStockOut" />
       <Association Name="MstUser_TrnStockOut4" Member="TrnStockOuts4" ThisKey="Id" OtherKey="UpdateUserId" Type="TrnStockOut" />
+      <Association Name="MstUser_MstSupplier11" Member="MstSupplier1s" ThisKey="Id" OtherKey="EntryUserId" Type="MstSupplier1" />
+      <Association Name="MstUser_MstSupplier12" Member="MstSupplier1s1" ThisKey="Id" OtherKey="UpdateUserId" Type="MstSupplier1" />
     </Type>
   </Table>
   <Table Name="dbo.MstUserForm" Member="MstUserForms">
@@ -674,6 +679,7 @@
       <Association Name="MstUser_TrnPurchaseOrder2" Member="MstUser2" ThisKey="ApprovedBy" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstUser_TrnPurchaseOrder3" Member="MstUser3" ThisKey="EntryUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstUser_TrnPurchaseOrder4" Member="MstUser4" ThisKey="UpdateUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstSupplier1_TrnPurchaseOrder" Member="MstSupplier1" ThisKey="SupplierId" OtherKey="Id" Type="MstSupplier1" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.TrnPurchaseOrderLine" Member="TrnPurchaseOrderLines">
@@ -901,6 +907,30 @@
       <Association Name="MstUser_TrnStockOut2" Member="MstUser2" ThisKey="ApprovedBy" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstUser_TrnStockOut3" Member="MstUser3" ThisKey="EntryUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
       <Association Name="MstUser_TrnStockOut4" Member="MstUser4" ThisKey="UpdateUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MstSupplier" Member="MstSupplier1s">
+    <Type Name="MstSupplier1">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Supplier" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="TelephoneNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CellphoneNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="FaxNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="TermId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TIN" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="AccountId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EntryUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EntryDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="UpdateUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UpdateDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsLocked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="MstSupplier1_MstItem" Member="MstItems" ThisKey="Id" OtherKey="DefaultSupplierId" Type="MstItem" />
+      <Association Name="MstSupplier1_TrnPurchaseOrder" Member="TrnPurchaseOrders" ThisKey="Id" OtherKey="SupplierId" Type="TrnPurchaseOrder" />
+      <Association Name="MstAccount_MstSupplier1" Member="MstAccount" ThisKey="AccountId" OtherKey="Id" Type="MstAccount" IsForeignKey="true" />
+      <Association Name="MstTerm_MstSupplier1" Member="MstTerm" ThisKey="TermId" OtherKey="Id" Type="MstTerm" IsForeignKey="true" />
+      <Association Name="MstUser_MstSupplier11" Member="MstUser" ThisKey="EntryUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
+      <Association Name="MstUser_MstSupplier12" Member="MstUser1" ThisKey="UpdateUserId" OtherKey="Id" Type="MstUser" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

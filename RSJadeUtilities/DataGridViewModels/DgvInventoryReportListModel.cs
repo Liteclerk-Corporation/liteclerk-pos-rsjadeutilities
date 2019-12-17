@@ -8,6 +8,7 @@ namespace RSJadeUtilities.DataGridViewModels
 {
     class DgvInventoryReportListModel
     {
+        public String InventoryReportListSupplier { get; set; }
         public String InventoryReportListBarcode { get; set; }
         public String InventoryReportListItemDescription { get; set; }
         public String InventoryReportListBeginningQuantity { get; set; }

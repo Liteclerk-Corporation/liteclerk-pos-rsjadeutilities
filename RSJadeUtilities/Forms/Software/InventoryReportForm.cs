@@ -37,12 +37,27 @@ namespace RSJadeUtilities.Forms.Software
 
         public void GetSuppliers()
         {
+            List<Entities.MstSupplierEntity> supplierEntity = new List<Entities.MstSupplierEntity>();
+            supplierEntity.Add(new Entities.MstSupplierEntity()
+            {
+                Id = 0,
+                Supplier = "All Suppliers"
+            });
+
             var suppliers = from d in db.MstSuppliers
-                            select d;
+                            select new Entities.MstSupplierEntity
+                            {
+                                Id = d.Id,
+                                Supplier = d.Supplier
+                            };
+
+
 
             if (suppliers.Any())
             {
-                comboBoxSupplier.DataSource = suppliers;
+                supplierEntity.AddRange(suppliers.ToList());
+
+                comboBoxSupplier.DataSource = supplierEntity;
                 comboBoxSupplier.ValueMember = "Id";
                 comboBoxSupplier.DisplayMember = "Supplier";
             }
@@ -126,43 +141,92 @@ namespace RSJadeUtilities.Forms.Software
 
         private List<Models.MstInventoryReportModel> GetInventoryReportList(Int32 supplierId, DateTime dateStart, DateTime dateEnd)
         {
-            var beginningInInventories = from d in db.TrnStockInLines
-                                         where d.TrnStockIn.IsLocked == true
-                                         && d.MstItem.DefaultSupplierId == supplierId
-                                         && d.TrnStockIn.StockInDate < dateStart.Date
-                                         select new Models.MstInventoryReportModel
-                                         {
-                                             Document = "Beg",
-                                             Id = "Beg-In-" + d.Id,
-                                             InventoryDate = d.TrnStockIn.StockInDate,
-                                             Barcode = d.MstItem.BarCode,
-                                             ItemDescription = d.MstItem.ItemDescription,
-                                             BeginningQuantity = d.Quantity,
-                                             InQuantity = 0,
-                                             ReturnQuantity = 0,
-                                             SoldQuantity = 0,
-                                             OutQuantity = 0,
-                                             EndingQuantity = 0,
-                                             Unit = d.MstUnit.Unit,
-                                             Cost = d.MstItem.Cost,
-                                             Amount = 0
-                                         };
+            if (supplierId == 0)
+            {
+                var beginningInInventories = from d in db.TrnStockInLines
+                                             where d.TrnStockIn.IsLocked == true
+                                             && d.TrnStockIn.StockInDate < dateStart.Date
+                                             select new Models.MstInventoryReportModel
+                                             {
+                                                 Document = "Beg",
+                                                 Id = "Beg-In-" + d.Id,
+                                                 InventoryDate = d.TrnStockIn.StockInDate,
+                                                 Supplier = d.MstItem.MstSupplier.Supplier,
+                                                 Barcode = d.MstItem.BarCode,
+                                                 ItemDescription = d.MstItem.ItemDescription,
+                                                 BeginningQuantity = d.Quantity,
+                                                 InQuantity = 0,
+                                                 ReturnQuantity = 0,
+                                                 SoldQuantity = 0,
+                                                 OutQuantity = 0,
+                                                 EndingQuantity = 0,
+                                                 Unit = d.MstUnit.Unit,
+                                                 Cost = d.MstItem.Cost,
+                                                 Amount = 0
+                                             };
 
-            var beginningSoldInventories = from d in db.TrnSalesLines
-                                           where d.TrnSale.IsLocked == true
-                                           && d.TrnSale.IsCancelled == false
-                                           && d.MstItem.DefaultSupplierId == supplierId
-                                           && d.TrnSale.SalesDate < dateStart.Date
+                var beginningSoldInventories = from d in db.TrnSalesLines
+                                               where d.TrnSale.IsLocked == true
+                                               && d.TrnSale.IsCancelled == false
+                                               && d.TrnSale.SalesDate < dateStart.Date
+                                               select new Models.MstInventoryReportModel
+                                               {
+                                                   Document = "Beg",
+                                                   Id = "Beg-Sold-" + d.Id,
+                                                   InventoryDate = d.TrnSale.SalesDate,
+                                                   Supplier = d.MstItem.MstSupplier.Supplier,
+                                                   Barcode = d.MstItem.BarCode,
+                                                   ItemDescription = d.MstItem.ItemDescription,
+                                                   BeginningQuantity = d.Quantity * -1,
+                                                   InQuantity = 0,
+                                                   ReturnQuantity = 0,
+                                                   SoldQuantity = 0,
+                                                   OutQuantity = 0,
+                                                   EndingQuantity = 0,
+                                                   Unit = d.MstUnit.Unit,
+                                                   Cost = d.MstItem.Cost,
+                                                   Amount = 0
+                                               };
+
+                var beginningOutInventories = from d in db.TrnStockOutLines
+                                              where d.TrnStockOut.IsLocked == true
+                                              && d.TrnStockOut.StockOutDate < dateStart.Date
+                                              select new Models.MstInventoryReportModel
+                                              {
+                                                  Document = "Beg",
+                                                  Id = "Beg-Out-" + d.Id,
+                                                  InventoryDate = d.TrnStockOut.StockOutDate,
+                                                  Supplier = d.MstItem.MstSupplier.Supplier,
+                                                  Barcode = d.MstItem.BarCode,
+                                                  ItemDescription = d.MstItem.ItemDescription,
+                                                  BeginningQuantity = d.Quantity * -1,
+                                                  InQuantity = 0,
+                                                  ReturnQuantity = 0,
+                                                  SoldQuantity = 0,
+                                                  OutQuantity = 0,
+                                                  EndingQuantity = 0,
+                                                  Unit = d.MstUnit.Unit,
+                                                  Cost = d.MstItem.Cost,
+                                                  Amount = 0
+                                              };
+
+                var unionBeginningInventories = beginningInInventories.ToList().Union(beginningSoldInventories.ToList()).Union(beginningOutInventories.ToList());
+
+                var currentInInventories = from d in db.TrnStockInLines
+                                           where d.TrnStockIn.IsLocked == true
+                                           && d.TrnStockIn.StockInDate >= dateStart.Date
+                                           && d.TrnStockIn.StockInDate <= dateEnd.Date
                                            select new Models.MstInventoryReportModel
                                            {
-                                               Document = "Beg",
-                                               Id = "Beg-Sold-" + d.Id,
-                                               InventoryDate = d.TrnSale.SalesDate,
+                                               Document = "Cur",
+                                               Id = "Cur-In-" + d.Id,
+                                               InventoryDate = d.TrnStockIn.StockInDate,
+                                               Supplier = d.MstItem.MstSupplier.Supplier,
                                                Barcode = d.MstItem.BarCode,
                                                ItemDescription = d.MstItem.ItemDescription,
-                                               BeginningQuantity = d.Quantity * -1,
-                                               InQuantity = 0,
-                                               ReturnQuantity = 0,
+                                               BeginningQuantity = 0,
+                                               InQuantity = d.TrnStockIn.IsReturn == false ? d.Quantity : 0,
+                                               ReturnQuantity = d.TrnStockIn.IsReturn == true ? d.Quantity : 0,
                                                SoldQuantity = 0,
                                                OutQuantity = 0,
                                                EndingQuantity = 0,
@@ -171,140 +235,287 @@ namespace RSJadeUtilities.Forms.Software
                                                Amount = 0
                                            };
 
-            var beginningOutInventories = from d in db.TrnStockOutLines
-                                          where d.TrnStockOut.IsLocked == true
-                                          && d.MstItem.DefaultSupplierId == supplierId
-                                          && d.TrnStockOut.StockOutDate < dateStart.Date
-                                          select new Models.MstInventoryReportModel
-                                          {
-                                              Document = "Beg",
-                                              Id = "Beg-Out-" + d.Id,
-                                              InventoryDate = d.TrnStockOut.StockOutDate,
-                                              Barcode = d.MstItem.BarCode,
-                                              ItemDescription = d.MstItem.ItemDescription,
-                                              BeginningQuantity = d.Quantity * -1,
-                                              InQuantity = 0,
-                                              ReturnQuantity = 0,
-                                              SoldQuantity = 0,
-                                              OutQuantity = 0,
-                                              EndingQuantity = 0,
-                                              Unit = d.MstUnit.Unit,
-                                              Cost = d.MstItem.Cost,
-                                              Amount = 0
-                                          };
+                var currentSoldInventories = from d in db.TrnSalesLines
+                                             where d.TrnSale.IsLocked == true
+                                             && d.TrnSale.IsCancelled == false
+                                             && d.TrnSale.SalesDate >= dateStart.Date
+                                             && d.TrnSale.SalesDate <= dateEnd.Date
+                                             select new Models.MstInventoryReportModel
+                                             {
+                                                 Document = "Cur",
+                                                 Id = "Cur-Sold-" + d.Id,
+                                                 InventoryDate = d.TrnSale.SalesDate,
+                                                 Supplier = d.MstItem.MstSupplier.Supplier,
+                                                 Barcode = d.MstItem.BarCode,
+                                                 ItemDescription = d.MstItem.ItemDescription,
+                                                 BeginningQuantity = 0,
+                                                 InQuantity = 0,
+                                                 ReturnQuantity = 0,
+                                                 SoldQuantity = d.Quantity,
+                                                 OutQuantity = 0,
+                                                 EndingQuantity = 0,
+                                                 Unit = d.MstUnit.Unit,
+                                                 Cost = d.MstItem.Cost,
+                                                 Amount = 0
+                                             };
 
-            var unionBeginningInventories = beginningInInventories.ToList().Union(beginningSoldInventories.ToList()).Union(beginningOutInventories.ToList());
+                var currentOutInventories = from d in db.TrnStockOutLines
+                                            where d.TrnStockOut.IsLocked == true
+                                            && d.TrnStockOut.StockOutDate >= dateStart.Date
+                                            && d.TrnStockOut.StockOutDate <= dateEnd.Date
+                                            select new Models.MstInventoryReportModel
+                                            {
+                                                Document = "Cur",
+                                                Id = "Cur-Out-" + d.Id,
+                                                InventoryDate = d.TrnStockOut.StockOutDate,
+                                                Supplier = d.MstItem.MstSupplier.Supplier,
+                                                Barcode = d.MstItem.BarCode,
+                                                ItemDescription = d.MstItem.ItemDescription,
+                                                BeginningQuantity = 0,
+                                                InQuantity = 0,
+                                                ReturnQuantity = 0,
+                                                SoldQuantity = 0,
+                                                OutQuantity = d.Quantity,
+                                                EndingQuantity = 0,
+                                                Unit = d.MstUnit.Unit,
+                                                Cost = d.MstItem.Cost,
+                                                Amount = 0
+                                            };
 
-            var currentInInventories = from d in db.TrnStockInLines
-                                       where d.TrnStockIn.IsLocked == true
-                                       && d.MstItem.DefaultSupplierId == supplierId
-                                       && d.TrnStockIn.StockInDate >= dateStart.Date
-                                       && d.TrnStockIn.StockInDate <= dateEnd.Date
-                                       select new Models.MstInventoryReportModel
-                                       {
-                                           Document = "Cur",
-                                           Id = "Cur-In-" + d.Id,
-                                           InventoryDate = d.TrnStockIn.StockInDate,
-                                           Barcode = d.MstItem.BarCode,
-                                           ItemDescription = d.MstItem.ItemDescription,
-                                           BeginningQuantity = 0,
-                                           InQuantity = d.TrnStockIn.IsReturn == false ? d.Quantity : 0,
-                                           ReturnQuantity = d.TrnStockIn.IsReturn == true ? d.Quantity : 0,
-                                           SoldQuantity = 0,
-                                           OutQuantity = 0,
-                                           EndingQuantity = 0,
-                                           Unit = d.MstUnit.Unit,
-                                           Cost = d.MstItem.Cost,
-                                           Amount = 0
-                                       };
+                var unionCurrentInventories = currentInInventories.ToList().Union(currentSoldInventories.ToList()).Union(currentOutInventories.ToList());
 
-            var currentSoldInventories = from d in db.TrnSalesLines
-                                         where d.TrnSale.IsLocked == true
-                                         && d.TrnSale.IsCancelled == false
-                                         && d.MstItem.DefaultSupplierId == supplierId
-                                         && d.TrnSale.SalesDate >= dateStart.Date
-                                         && d.TrnSale.SalesDate <= dateEnd.Date
-                                         select new Models.MstInventoryReportModel
-                                         {
-                                             Document = "Cur",
-                                             Id = "Cur-Sold-" + d.Id,
-                                             InventoryDate = d.TrnSale.SalesDate,
-                                             Barcode = d.MstItem.BarCode,
-                                             ItemDescription = d.MstItem.ItemDescription,
-                                             BeginningQuantity = 0,
-                                             InQuantity = 0,
-                                             ReturnQuantity = 0,
-                                             SoldQuantity = d.Quantity,
-                                             OutQuantity = 0,
-                                             EndingQuantity = 0,
-                                             Unit = d.MstUnit.Unit,
-                                             Cost = d.MstItem.Cost,
-                                             Amount = 0
-                                         };
+                var unionInventories = unionBeginningInventories.ToList().Union(unionCurrentInventories.ToList());
+                if (unionInventories.Any())
+                {
+                    var inventories = from d in unionInventories
+                                      group d by new
+                                      {
+                                          d.Supplier,
+                                          d.Barcode,
+                                          d.ItemDescription,
+                                          d.Unit,
+                                          d.Cost
+                                      } into g
+                                      select new Models.MstInventoryReportModel
+                                      {
+                                          Supplier = g.Key.Supplier,
+                                          Barcode = g.Key.Barcode,
+                                          ItemDescription = g.Key.ItemDescription,
+                                          BeginningQuantity = g.Sum(s => s.BeginningQuantity),
+                                          InQuantity = g.Sum(s => s.InQuantity),
+                                          ReturnQuantity = g.Sum(s => s.ReturnQuantity),
+                                          SoldQuantity = g.Sum(s => s.SoldQuantity),
+                                          OutQuantity = g.Sum(s => s.OutQuantity),
+                                          EndingQuantity = g.Sum(s => (s.BeginningQuantity + s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity),
+                                          Unit = g.Key.Unit,
+                                          Cost = g.Key.Cost,
+                                          Amount = g.Key.Cost * g.Sum(s => (s.BeginningQuantity + s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity)
+                                      };
 
-            var currentOutInventories = from d in db.TrnStockOutLines
-                                        where d.TrnStockOut.IsLocked == true
-                                        && d.MstItem.DefaultSupplierId == supplierId
-                                        && d.TrnStockOut.StockOutDate >= dateStart.Date
-                                        && d.TrnStockOut.StockOutDate <= dateEnd.Date
-                                        select new Models.MstInventoryReportModel
-                                        {
-                                            Document = "Cur",
-                                            Id = "Cur-Out-" + d.Id,
-                                            InventoryDate = d.TrnStockOut.StockOutDate,
-                                            Barcode = d.MstItem.BarCode,
-                                            ItemDescription = d.MstItem.ItemDescription,
-                                            BeginningQuantity = 0,
-                                            InQuantity = 0,
-                                            ReturnQuantity = 0,
-                                            SoldQuantity = 0,
-                                            OutQuantity = d.Quantity,
-                                            EndingQuantity = 0,
-                                            Unit = d.MstUnit.Unit,
-                                            Cost = d.MstItem.Cost,
-                                            Amount = 0
-                                        };
+                    buttonGet.Text = "Get";
+                    buttonGet.Enabled = true;
 
-            var unionCurrentInventories = currentInInventories.ToList().Union(currentSoldInventories.ToList()).Union(currentOutInventories.ToList());
+                    return inventories.OrderBy(d => d.ItemDescription).ToList();
+                }
+                else
+                {
+                    buttonGet.Text = "Get";
+                    buttonGet.Enabled = true;
 
-            var unionInventories = unionBeginningInventories.ToList().Union(unionCurrentInventories.ToList());
-            if (unionInventories.Any())
-            {
-                var inventories = from d in unionInventories
-                                  group d by new
-                                  {
-                                      d.Barcode,
-                                      d.ItemDescription,
-                                      d.Unit,
-                                      d.Cost
-                                  } into g
-                                  select new Models.MstInventoryReportModel
-                                  {
-                                      Barcode = g.Key.Barcode,
-                                      ItemDescription = g.Key.ItemDescription,
-                                      BeginningQuantity = g.Sum(s => s.BeginningQuantity),
-                                      InQuantity = g.Sum(s => s.InQuantity),
-                                      ReturnQuantity = g.Sum(s => s.ReturnQuantity),
-                                      SoldQuantity = g.Sum(s => s.SoldQuantity),
-                                      OutQuantity = g.Sum(s => s.OutQuantity),
-                                      EndingQuantity = g.Sum(s => (s.BeginningQuantity + s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity),
-                                      Unit = g.Key.Unit,
-                                      Cost = g.Key.Cost,
-                                      Amount = g.Key.Cost * g.Sum(s => (s.BeginningQuantity + s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity)
-                                  };
-
-                buttonGet.Text = "Get";
-                buttonGet.Enabled = true;
-
-                return inventories.OrderBy(d => d.ItemDescription).ToList();
+                    return new List<Models.MstInventoryReportModel>();
+                }
             }
             else
             {
-                buttonGet.Text = "Get";
-                buttonGet.Enabled = true;
+                var beginningInInventories = from d in db.TrnStockInLines
+                                             where d.TrnStockIn.IsLocked == true
+                                             && d.MstItem.DefaultSupplierId == supplierId
+                                             && d.TrnStockIn.StockInDate < dateStart.Date
+                                             select new Models.MstInventoryReportModel
+                                             {
+                                                 Document = "Beg",
+                                                 Id = "Beg-In-" + d.Id,
+                                                 InventoryDate = d.TrnStockIn.StockInDate,
+                                                 Supplier = d.MstItem.MstSupplier.Supplier,
+                                                 Barcode = d.MstItem.BarCode,
+                                                 ItemDescription = d.MstItem.ItemDescription,
+                                                 BeginningQuantity = d.Quantity,
+                                                 InQuantity = 0,
+                                                 ReturnQuantity = 0,
+                                                 SoldQuantity = 0,
+                                                 OutQuantity = 0,
+                                                 EndingQuantity = 0,
+                                                 Unit = d.MstUnit.Unit,
+                                                 Cost = d.MstItem.Cost,
+                                                 Amount = 0
+                                             };
 
-                return new List<Models.MstInventoryReportModel>();
+                var beginningSoldInventories = from d in db.TrnSalesLines
+                                               where d.TrnSale.IsLocked == true
+                                               && d.TrnSale.IsCancelled == false
+                                               && d.MstItem.DefaultSupplierId == supplierId
+                                               && d.TrnSale.SalesDate < dateStart.Date
+                                               select new Models.MstInventoryReportModel
+                                               {
+                                                   Document = "Beg",
+                                                   Id = "Beg-Sold-" + d.Id,
+                                                   InventoryDate = d.TrnSale.SalesDate,
+                                                   Supplier = d.MstItem.MstSupplier.Supplier,
+                                                   Barcode = d.MstItem.BarCode,
+                                                   ItemDescription = d.MstItem.ItemDescription,
+                                                   BeginningQuantity = d.Quantity * -1,
+                                                   InQuantity = 0,
+                                                   ReturnQuantity = 0,
+                                                   SoldQuantity = 0,
+                                                   OutQuantity = 0,
+                                                   EndingQuantity = 0,
+                                                   Unit = d.MstUnit.Unit,
+                                                   Cost = d.MstItem.Cost,
+                                                   Amount = 0
+                                               };
+
+                var beginningOutInventories = from d in db.TrnStockOutLines
+                                              where d.TrnStockOut.IsLocked == true
+                                              && d.MstItem.DefaultSupplierId == supplierId
+                                              && d.TrnStockOut.StockOutDate < dateStart.Date
+                                              select new Models.MstInventoryReportModel
+                                              {
+                                                  Document = "Beg",
+                                                  Id = "Beg-Out-" + d.Id,
+                                                  InventoryDate = d.TrnStockOut.StockOutDate,
+                                                  Supplier = d.MstItem.MstSupplier.Supplier,
+                                                  Barcode = d.MstItem.BarCode,
+                                                  ItemDescription = d.MstItem.ItemDescription,
+                                                  BeginningQuantity = d.Quantity * -1,
+                                                  InQuantity = 0,
+                                                  ReturnQuantity = 0,
+                                                  SoldQuantity = 0,
+                                                  OutQuantity = 0,
+                                                  EndingQuantity = 0,
+                                                  Unit = d.MstUnit.Unit,
+                                                  Cost = d.MstItem.Cost,
+                                                  Amount = 0
+                                              };
+
+                var unionBeginningInventories = beginningInInventories.ToList().Union(beginningSoldInventories.ToList()).Union(beginningOutInventories.ToList());
+
+                var currentInInventories = from d in db.TrnStockInLines
+                                           where d.TrnStockIn.IsLocked == true
+                                           && d.MstItem.DefaultSupplierId == supplierId
+                                           && d.TrnStockIn.StockInDate >= dateStart.Date
+                                           && d.TrnStockIn.StockInDate <= dateEnd.Date
+                                           select new Models.MstInventoryReportModel
+                                           {
+                                               Document = "Cur",
+                                               Id = "Cur-In-" + d.Id,
+                                               InventoryDate = d.TrnStockIn.StockInDate,
+                                               Supplier = d.MstItem.MstSupplier.Supplier,
+                                               Barcode = d.MstItem.BarCode,
+                                               ItemDescription = d.MstItem.ItemDescription,
+                                               BeginningQuantity = 0,
+                                               InQuantity = d.TrnStockIn.IsReturn == false ? d.Quantity : 0,
+                                               ReturnQuantity = d.TrnStockIn.IsReturn == true ? d.Quantity : 0,
+                                               SoldQuantity = 0,
+                                               OutQuantity = 0,
+                                               EndingQuantity = 0,
+                                               Unit = d.MstUnit.Unit,
+                                               Cost = d.MstItem.Cost,
+                                               Amount = 0
+                                           };
+
+                var currentSoldInventories = from d in db.TrnSalesLines
+                                             where d.TrnSale.IsLocked == true
+                                             && d.TrnSale.IsCancelled == false
+                                             && d.MstItem.DefaultSupplierId == supplierId
+                                             && d.TrnSale.SalesDate >= dateStart.Date
+                                             && d.TrnSale.SalesDate <= dateEnd.Date
+                                             select new Models.MstInventoryReportModel
+                                             {
+                                                 Document = "Cur",
+                                                 Id = "Cur-Sold-" + d.Id,
+                                                 InventoryDate = d.TrnSale.SalesDate,
+                                                 Supplier = d.MstItem.MstSupplier.Supplier,
+                                                 Barcode = d.MstItem.BarCode,
+                                                 ItemDescription = d.MstItem.ItemDescription,
+                                                 BeginningQuantity = 0,
+                                                 InQuantity = 0,
+                                                 ReturnQuantity = 0,
+                                                 SoldQuantity = d.Quantity,
+                                                 OutQuantity = 0,
+                                                 EndingQuantity = 0,
+                                                 Unit = d.MstUnit.Unit,
+                                                 Cost = d.MstItem.Cost,
+                                                 Amount = 0
+                                             };
+
+                var currentOutInventories = from d in db.TrnStockOutLines
+                                            where d.TrnStockOut.IsLocked == true
+                                            && d.MstItem.DefaultSupplierId == supplierId
+                                            && d.TrnStockOut.StockOutDate >= dateStart.Date
+                                            && d.TrnStockOut.StockOutDate <= dateEnd.Date
+                                            select new Models.MstInventoryReportModel
+                                            {
+                                                Document = "Cur",
+                                                Id = "Cur-Out-" + d.Id,
+                                                InventoryDate = d.TrnStockOut.StockOutDate,
+                                                Supplier = d.MstItem.MstSupplier.Supplier,
+                                                Barcode = d.MstItem.BarCode,
+                                                ItemDescription = d.MstItem.ItemDescription,
+                                                BeginningQuantity = 0,
+                                                InQuantity = 0,
+                                                ReturnQuantity = 0,
+                                                SoldQuantity = 0,
+                                                OutQuantity = d.Quantity,
+                                                EndingQuantity = 0,
+                                                Unit = d.MstUnit.Unit,
+                                                Cost = d.MstItem.Cost,
+                                                Amount = 0
+                                            };
+
+                var unionCurrentInventories = currentInInventories.ToList().Union(currentSoldInventories.ToList()).Union(currentOutInventories.ToList());
+
+                var unionInventories = unionBeginningInventories.ToList().Union(unionCurrentInventories.ToList());
+                if (unionInventories.Any())
+                {
+                    var inventories = from d in unionInventories
+                                      group d by new
+                                      {
+                                          d.Supplier,
+                                          d.Barcode,
+                                          d.ItemDescription,
+                                          d.Unit,
+                                          d.Cost
+                                      } into g
+                                      select new Models.MstInventoryReportModel
+                                      {
+                                          Supplier = g.Key.Supplier,
+                                          Barcode = g.Key.Barcode,
+                                          ItemDescription = g.Key.ItemDescription,
+                                          BeginningQuantity = g.Sum(s => s.BeginningQuantity),
+                                          InQuantity = g.Sum(s => s.InQuantity),
+                                          ReturnQuantity = g.Sum(s => s.ReturnQuantity),
+                                          SoldQuantity = g.Sum(s => s.SoldQuantity),
+                                          OutQuantity = g.Sum(s => s.OutQuantity),
+                                          EndingQuantity = g.Sum(s => (s.BeginningQuantity + s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity),
+                                          Unit = g.Key.Unit,
+                                          Cost = g.Key.Cost,
+                                          Amount = g.Key.Cost * g.Sum(s => (s.BeginningQuantity + s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity)
+                                      };
+
+                    buttonGet.Text = "Get";
+                    buttonGet.Enabled = true;
+
+                    return inventories.OrderBy(d => d.ItemDescription).ToList();
+                }
+                else
+                {
+                    buttonGet.Text = "Get";
+                    buttonGet.Enabled = true;
+
+                    return new List<Models.MstInventoryReportModel>();
+                }
             }
+
         }
 
         private Task<List<DataGridViewModels.DgvInventoryReportListModel>> GetInventoryReportDataTask(Int32 supplierId, DateTime dateStart, DateTime dateEnd)
@@ -315,6 +526,7 @@ namespace RSJadeUtilities.Forms.Software
                 var items = from d in listInventoryReport
                             select new DataGridViewModels.DgvInventoryReportListModel
                             {
+                                InventoryReportListSupplier = d.Supplier,
                                 InventoryReportListBarcode = d.Barcode,
                                 InventoryReportListItemDescription = d.ItemDescription,
                                 InventoryReportListBeginningQuantity = d.BeginningQuantity.ToString("#,##0.00"),

@@ -162,6 +162,9 @@ namespace RSJadeUtilities.Data
     partial void InsertTrnStockOut(TrnStockOut instance);
     partial void UpdateTrnStockOut(TrnStockOut instance);
     partial void DeleteTrnStockOut(TrnStockOut instance);
+    partial void InsertMstSupplier1(MstSupplier1 instance);
+    partial void UpdateMstSupplier1(MstSupplier1 instance);
+    partial void DeleteMstSupplier1(MstSupplier1 instance);
     #endregion
 		
 		public posDataContext() : 
@@ -545,6 +548,14 @@ namespace RSJadeUtilities.Data
 				return this.GetTable<TrnStockOut>();
 			}
 		}
+		
+		public System.Data.Linq.Table<MstSupplier1> MstSupplier1s
+		{
+			get
+			{
+				return this.GetTable<MstSupplier1>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstAccount")]
@@ -599,6 +610,8 @@ namespace RSJadeUtilities.Data
 		
 		private EntitySet<TrnStockOut> _TrnStockOuts;
 		
+		private EntitySet<MstSupplier1> _MstSupplier1s;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -635,6 +648,7 @@ namespace RSJadeUtilities.Data
 			this._TrnSalesLines3 = new EntitySet<TrnSalesLine>(new Action<TrnSalesLine>(this.attach_TrnSalesLines3), new Action<TrnSalesLine>(this.detach_TrnSalesLines3));
 			this._TrnStockInLines = new EntitySet<TrnStockInLine>(new Action<TrnStockInLine>(this.attach_TrnStockInLines), new Action<TrnStockInLine>(this.detach_TrnStockInLines));
 			this._TrnStockOuts = new EntitySet<TrnStockOut>(new Action<TrnStockOut>(this.attach_TrnStockOuts), new Action<TrnStockOut>(this.detach_TrnStockOuts));
+			this._MstSupplier1s = new EntitySet<MstSupplier1>(new Action<MstSupplier1>(this.attach_MstSupplier1s), new Action<MstSupplier1>(this.detach_MstSupplier1s));
 			OnCreated();
 		}
 		
@@ -972,6 +986,19 @@ namespace RSJadeUtilities.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstSupplier1", Storage="_MstSupplier1s", ThisKey="Id", OtherKey="AccountId")]
+		public EntitySet<MstSupplier1> MstSupplier1s
+		{
+			get
+			{
+				return this._MstSupplier1s;
+			}
+			set
+			{
+				this._MstSupplier1s.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1203,6 +1230,18 @@ namespace RSJadeUtilities.Data
 		}
 		
 		private void detach_TrnStockOuts(TrnStockOut entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount = null;
+		}
+		
+		private void attach_MstSupplier1s(MstSupplier1 entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstAccount = this;
+		}
+		
+		private void detach_MstSupplier1s(MstSupplier1 entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstAccount = null;
@@ -3315,6 +3354,8 @@ namespace RSJadeUtilities.Data
 		
 		private EntityRef<MstUser> _MstUser1;
 		
+		private EntityRef<MstSupplier1> _MstSupplier1;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3405,6 +3446,7 @@ namespace RSJadeUtilities.Data
 			this._MstUnit = default(EntityRef<MstUnit>);
 			this._MstUser = default(EntityRef<MstUser>);
 			this._MstUser1 = default(EntityRef<MstUser>);
+			this._MstSupplier1 = default(EntityRef<MstSupplier1>);
 			OnCreated();
 		}
 		
@@ -3699,7 +3741,7 @@ namespace RSJadeUtilities.Data
 			{
 				if ((this._DefaultSupplierId != value))
 				{
-					if (this._MstSupplier.HasLoadedOrAssignedValue)
+					if ((this._MstSupplier.HasLoadedOrAssignedValue || this._MstSupplier1.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -4484,6 +4526,40 @@ namespace RSJadeUtilities.Data
 						this._UpdateUserId = default(int);
 					}
 					this.SendPropertyChanged("MstUser1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstSupplier1_MstItem", Storage="_MstSupplier1", ThisKey="DefaultSupplierId", OtherKey="Id", IsForeignKey=true)]
+		public MstSupplier1 MstSupplier1
+		{
+			get
+			{
+				return this._MstSupplier1.Entity;
+			}
+			set
+			{
+				MstSupplier1 previousValue = this._MstSupplier1.Entity;
+				if (((previousValue != value) 
+							|| (this._MstSupplier1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstSupplier1.Entity = null;
+						previousValue.MstItems.Remove(this);
+					}
+					this._MstSupplier1.Entity = value;
+					if ((value != null))
+					{
+						value.MstItems.Add(this);
+						this._DefaultSupplierId = value.Id;
+					}
+					else
+					{
+						this._DefaultSupplierId = default(int);
+					}
+					this.SendPropertyChanged("MstSupplier1");
 				}
 			}
 		}
@@ -8058,6 +8134,8 @@ namespace RSJadeUtilities.Data
 		
 		private EntitySet<TrnSale> _TrnSales;
 		
+		private EntitySet<MstSupplier1> _MstSupplier1s;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -8075,6 +8153,7 @@ namespace RSJadeUtilities.Data
 			this._MstCustomers = new EntitySet<MstCustomer>(new Action<MstCustomer>(this.attach_MstCustomers), new Action<MstCustomer>(this.detach_MstCustomers));
 			this._MstSuppliers = new EntitySet<MstSupplier>(new Action<MstSupplier>(this.attach_MstSuppliers), new Action<MstSupplier>(this.detach_MstSuppliers));
 			this._TrnSales = new EntitySet<TrnSale>(new Action<TrnSale>(this.attach_TrnSales), new Action<TrnSale>(this.detach_TrnSales));
+			this._MstSupplier1s = new EntitySet<MstSupplier1>(new Action<MstSupplier1>(this.attach_MstSupplier1s), new Action<MstSupplier1>(this.detach_MstSupplier1s));
 			OnCreated();
 		}
 		
@@ -8177,6 +8256,19 @@ namespace RSJadeUtilities.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstTerm_MstSupplier1", Storage="_MstSupplier1s", ThisKey="Id", OtherKey="TermId")]
+		public EntitySet<MstSupplier1> MstSupplier1s
+		{
+			get
+			{
+				return this._MstSupplier1s;
+			}
+			set
+			{
+				this._MstSupplier1s.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -8228,6 +8320,18 @@ namespace RSJadeUtilities.Data
 		}
 		
 		private void detach_TrnSales(TrnSale entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstTerm = null;
+		}
+		
+		private void attach_MstSupplier1s(MstSupplier1 entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstTerm = this;
+		}
+		
+		private void detach_MstSupplier1s(MstSupplier1 entity)
 		{
 			this.SendPropertyChanging();
 			entity.MstTerm = null;
@@ -8770,6 +8874,10 @@ namespace RSJadeUtilities.Data
 		
 		private EntitySet<TrnStockOut> _TrnStockOuts4;
 		
+		private EntitySet<MstSupplier1> _MstSupplier1s;
+		
+		private EntitySet<MstSupplier1> _MstSupplier1s1;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -8841,6 +8949,8 @@ namespace RSJadeUtilities.Data
 			this._TrnStockOuts2 = new EntitySet<TrnStockOut>(new Action<TrnStockOut>(this.attach_TrnStockOuts2), new Action<TrnStockOut>(this.detach_TrnStockOuts2));
 			this._TrnStockOuts3 = new EntitySet<TrnStockOut>(new Action<TrnStockOut>(this.attach_TrnStockOuts3), new Action<TrnStockOut>(this.detach_TrnStockOuts3));
 			this._TrnStockOuts4 = new EntitySet<TrnStockOut>(new Action<TrnStockOut>(this.attach_TrnStockOuts4), new Action<TrnStockOut>(this.detach_TrnStockOuts4));
+			this._MstSupplier1s = new EntitySet<MstSupplier1>(new Action<MstSupplier1>(this.attach_MstSupplier1s), new Action<MstSupplier1>(this.detach_MstSupplier1s));
+			this._MstSupplier1s1 = new EntitySet<MstSupplier1>(new Action<MstSupplier1>(this.attach_MstSupplier1s1), new Action<MstSupplier1>(this.detach_MstSupplier1s1));
 			OnCreated();
 		}
 		
@@ -9603,6 +9713,32 @@ namespace RSJadeUtilities.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstSupplier11", Storage="_MstSupplier1s", ThisKey="Id", OtherKey="EntryUserId")]
+		public EntitySet<MstSupplier1> MstSupplier1s
+		{
+			get
+			{
+				return this._MstSupplier1s;
+			}
+			set
+			{
+				this._MstSupplier1s.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstSupplier12", Storage="_MstSupplier1s1", ThisKey="Id", OtherKey="UpdateUserId")]
+		public EntitySet<MstSupplier1> MstSupplier1s1
+		{
+			get
+			{
+				return this._MstSupplier1s1;
+			}
+			set
+			{
+				this._MstSupplier1s1.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -10137,6 +10273,30 @@ namespace RSJadeUtilities.Data
 		{
 			this.SendPropertyChanging();
 			entity.MstUser4 = null;
+		}
+		
+		private void attach_MstSupplier1s(MstSupplier1 entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = this;
+		}
+		
+		private void detach_MstSupplier1s(MstSupplier1 entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser = null;
+		}
+		
+		private void attach_MstSupplier1s1(MstSupplier1 entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser1 = this;
+		}
+		
+		private void detach_MstSupplier1s1(MstSupplier1 entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstUser1 = null;
 		}
 	}
 	
@@ -15989,6 +16149,8 @@ namespace RSJadeUtilities.Data
 		
 		private EntityRef<MstUser> _MstUser4;
 		
+		private EntityRef<MstSupplier1> _MstSupplier1;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -16037,6 +16199,7 @@ namespace RSJadeUtilities.Data
 			this._MstUser2 = default(EntityRef<MstUser>);
 			this._MstUser3 = default(EntityRef<MstUser>);
 			this._MstUser4 = default(EntityRef<MstUser>);
+			this._MstSupplier1 = default(EntityRef<MstSupplier1>);
 			OnCreated();
 		}
 		
@@ -16155,7 +16318,7 @@ namespace RSJadeUtilities.Data
 			{
 				if ((this._SupplierId != value))
 				{
-					if (this._MstSupplier.HasLoadedOrAssignedValue)
+					if ((this._MstSupplier.HasLoadedOrAssignedValue || this._MstSupplier1.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -16635,6 +16798,40 @@ namespace RSJadeUtilities.Data
 						this._UpdateUserId = default(int);
 					}
 					this.SendPropertyChanged("MstUser4");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstSupplier1_TrnPurchaseOrder", Storage="_MstSupplier1", ThisKey="SupplierId", OtherKey="Id", IsForeignKey=true)]
+		public MstSupplier1 MstSupplier1
+		{
+			get
+			{
+				return this._MstSupplier1.Entity;
+			}
+			set
+			{
+				MstSupplier1 previousValue = this._MstSupplier1.Entity;
+				if (((previousValue != value) 
+							|| (this._MstSupplier1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstSupplier1.Entity = null;
+						previousValue.TrnPurchaseOrders.Remove(this);
+					}
+					this._MstSupplier1.Entity = value;
+					if ((value != null))
+					{
+						value.TrnPurchaseOrders.Add(this);
+						this._SupplierId = value.Id;
+					}
+					else
+					{
+						this._SupplierId = default(int);
+					}
+					this.SendPropertyChanged("MstSupplier1");
 				}
 			}
 		}
@@ -22289,6 +22486,600 @@ namespace RSJadeUtilities.Data
 		{
 			this.SendPropertyChanging();
 			entity.TrnStockOut = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MstSupplier")]
+	public partial class MstSupplier1 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Supplier;
+		
+		private string _Address;
+		
+		private string _TelephoneNumber;
+		
+		private string _CellphoneNumber;
+		
+		private string _FaxNumber;
+		
+		private int _TermId;
+		
+		private string _TIN;
+		
+		private int _AccountId;
+		
+		private int _EntryUserId;
+		
+		private System.DateTime _EntryDateTime;
+		
+		private int _UpdateUserId;
+		
+		private System.DateTime _UpdateDateTime;
+		
+		private bool _IsLocked;
+		
+		private EntitySet<MstItem> _MstItems;
+		
+		private EntitySet<TrnPurchaseOrder> _TrnPurchaseOrders;
+		
+		private EntityRef<MstAccount> _MstAccount;
+		
+		private EntityRef<MstTerm> _MstTerm;
+		
+		private EntityRef<MstUser> _MstUser;
+		
+		private EntityRef<MstUser> _MstUser1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnSupplierChanging(string value);
+    partial void OnSupplierChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnTelephoneNumberChanging(string value);
+    partial void OnTelephoneNumberChanged();
+    partial void OnCellphoneNumberChanging(string value);
+    partial void OnCellphoneNumberChanged();
+    partial void OnFaxNumberChanging(string value);
+    partial void OnFaxNumberChanged();
+    partial void OnTermIdChanging(int value);
+    partial void OnTermIdChanged();
+    partial void OnTINChanging(string value);
+    partial void OnTINChanged();
+    partial void OnAccountIdChanging(int value);
+    partial void OnAccountIdChanged();
+    partial void OnEntryUserIdChanging(int value);
+    partial void OnEntryUserIdChanged();
+    partial void OnEntryDateTimeChanging(System.DateTime value);
+    partial void OnEntryDateTimeChanged();
+    partial void OnUpdateUserIdChanging(int value);
+    partial void OnUpdateUserIdChanged();
+    partial void OnUpdateDateTimeChanging(System.DateTime value);
+    partial void OnUpdateDateTimeChanged();
+    partial void OnIsLockedChanging(bool value);
+    partial void OnIsLockedChanged();
+    #endregion
+		
+		public MstSupplier1()
+		{
+			this._MstItems = new EntitySet<MstItem>(new Action<MstItem>(this.attach_MstItems), new Action<MstItem>(this.detach_MstItems));
+			this._TrnPurchaseOrders = new EntitySet<TrnPurchaseOrder>(new Action<TrnPurchaseOrder>(this.attach_TrnPurchaseOrders), new Action<TrnPurchaseOrder>(this.detach_TrnPurchaseOrders));
+			this._MstAccount = default(EntityRef<MstAccount>);
+			this._MstTerm = default(EntityRef<MstTerm>);
+			this._MstUser = default(EntityRef<MstUser>);
+			this._MstUser1 = default(EntityRef<MstUser>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Supplier", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Supplier
+		{
+			get
+			{
+				return this._Supplier;
+			}
+			set
+			{
+				if ((this._Supplier != value))
+				{
+					this.OnSupplierChanging(value);
+					this.SendPropertyChanging();
+					this._Supplier = value;
+					this.SendPropertyChanged("Supplier");
+					this.OnSupplierChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TelephoneNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TelephoneNumber
+		{
+			get
+			{
+				return this._TelephoneNumber;
+			}
+			set
+			{
+				if ((this._TelephoneNumber != value))
+				{
+					this.OnTelephoneNumberChanging(value);
+					this.SendPropertyChanging();
+					this._TelephoneNumber = value;
+					this.SendPropertyChanged("TelephoneNumber");
+					this.OnTelephoneNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CellphoneNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string CellphoneNumber
+		{
+			get
+			{
+				return this._CellphoneNumber;
+			}
+			set
+			{
+				if ((this._CellphoneNumber != value))
+				{
+					this.OnCellphoneNumberChanging(value);
+					this.SendPropertyChanging();
+					this._CellphoneNumber = value;
+					this.SendPropertyChanged("CellphoneNumber");
+					this.OnCellphoneNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FaxNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string FaxNumber
+		{
+			get
+			{
+				return this._FaxNumber;
+			}
+			set
+			{
+				if ((this._FaxNumber != value))
+				{
+					this.OnFaxNumberChanging(value);
+					this.SendPropertyChanging();
+					this._FaxNumber = value;
+					this.SendPropertyChanged("FaxNumber");
+					this.OnFaxNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TermId", DbType="Int NOT NULL")]
+		public int TermId
+		{
+			get
+			{
+				return this._TermId;
+			}
+			set
+			{
+				if ((this._TermId != value))
+				{
+					if (this._MstTerm.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTermIdChanging(value);
+					this.SendPropertyChanging();
+					this._TermId = value;
+					this.SendPropertyChanged("TermId");
+					this.OnTermIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TIN", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TIN
+		{
+			get
+			{
+				return this._TIN;
+			}
+			set
+			{
+				if ((this._TIN != value))
+				{
+					this.OnTINChanging(value);
+					this.SendPropertyChanging();
+					this._TIN = value;
+					this.SendPropertyChanged("TIN");
+					this.OnTINChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccountId", DbType="Int NOT NULL")]
+		public int AccountId
+		{
+			get
+			{
+				return this._AccountId;
+			}
+			set
+			{
+				if ((this._AccountId != value))
+				{
+					if (this._MstAccount.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAccountIdChanging(value);
+					this.SendPropertyChanging();
+					this._AccountId = value;
+					this.SendPropertyChanged("AccountId");
+					this.OnAccountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EntryUserId", DbType="Int NOT NULL")]
+		public int EntryUserId
+		{
+			get
+			{
+				return this._EntryUserId;
+			}
+			set
+			{
+				if ((this._EntryUserId != value))
+				{
+					if (this._MstUser.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnEntryUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._EntryUserId = value;
+					this.SendPropertyChanged("EntryUserId");
+					this.OnEntryUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EntryDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime EntryDateTime
+		{
+			get
+			{
+				return this._EntryDateTime;
+			}
+			set
+			{
+				if ((this._EntryDateTime != value))
+				{
+					this.OnEntryDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EntryDateTime = value;
+					this.SendPropertyChanged("EntryDateTime");
+					this.OnEntryDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdateUserId", DbType="Int NOT NULL")]
+		public int UpdateUserId
+		{
+			get
+			{
+				return this._UpdateUserId;
+			}
+			set
+			{
+				if ((this._UpdateUserId != value))
+				{
+					if (this._MstUser1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUpdateUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UpdateUserId = value;
+					this.SendPropertyChanged("UpdateUserId");
+					this.OnUpdateUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdateDateTime", DbType="DateTime NOT NULL")]
+		public System.DateTime UpdateDateTime
+		{
+			get
+			{
+				return this._UpdateDateTime;
+			}
+			set
+			{
+				if ((this._UpdateDateTime != value))
+				{
+					this.OnUpdateDateTimeChanging(value);
+					this.SendPropertyChanging();
+					this._UpdateDateTime = value;
+					this.SendPropertyChanged("UpdateDateTime");
+					this.OnUpdateDateTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLocked", DbType="Bit NOT NULL")]
+		public bool IsLocked
+		{
+			get
+			{
+				return this._IsLocked;
+			}
+			set
+			{
+				if ((this._IsLocked != value))
+				{
+					this.OnIsLockedChanging(value);
+					this.SendPropertyChanging();
+					this._IsLocked = value;
+					this.SendPropertyChanged("IsLocked");
+					this.OnIsLockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstSupplier1_MstItem", Storage="_MstItems", ThisKey="Id", OtherKey="DefaultSupplierId")]
+		public EntitySet<MstItem> MstItems
+		{
+			get
+			{
+				return this._MstItems;
+			}
+			set
+			{
+				this._MstItems.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstSupplier1_TrnPurchaseOrder", Storage="_TrnPurchaseOrders", ThisKey="Id", OtherKey="SupplierId")]
+		public EntitySet<TrnPurchaseOrder> TrnPurchaseOrders
+		{
+			get
+			{
+				return this._TrnPurchaseOrders;
+			}
+			set
+			{
+				this._TrnPurchaseOrders.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstAccount_MstSupplier1", Storage="_MstAccount", ThisKey="AccountId", OtherKey="Id", IsForeignKey=true)]
+		public MstAccount MstAccount
+		{
+			get
+			{
+				return this._MstAccount.Entity;
+			}
+			set
+			{
+				MstAccount previousValue = this._MstAccount.Entity;
+				if (((previousValue != value) 
+							|| (this._MstAccount.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstAccount.Entity = null;
+						previousValue.MstSupplier1s.Remove(this);
+					}
+					this._MstAccount.Entity = value;
+					if ((value != null))
+					{
+						value.MstSupplier1s.Add(this);
+						this._AccountId = value.Id;
+					}
+					else
+					{
+						this._AccountId = default(int);
+					}
+					this.SendPropertyChanged("MstAccount");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstTerm_MstSupplier1", Storage="_MstTerm", ThisKey="TermId", OtherKey="Id", IsForeignKey=true)]
+		public MstTerm MstTerm
+		{
+			get
+			{
+				return this._MstTerm.Entity;
+			}
+			set
+			{
+				MstTerm previousValue = this._MstTerm.Entity;
+				if (((previousValue != value) 
+							|| (this._MstTerm.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstTerm.Entity = null;
+						previousValue.MstSupplier1s.Remove(this);
+					}
+					this._MstTerm.Entity = value;
+					if ((value != null))
+					{
+						value.MstSupplier1s.Add(this);
+						this._TermId = value.Id;
+					}
+					else
+					{
+						this._TermId = default(int);
+					}
+					this.SendPropertyChanged("MstTerm");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstSupplier11", Storage="_MstUser", ThisKey="EntryUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser
+		{
+			get
+			{
+				return this._MstUser.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser.Entity = null;
+						previousValue.MstSupplier1s.Remove(this);
+					}
+					this._MstUser.Entity = value;
+					if ((value != null))
+					{
+						value.MstSupplier1s.Add(this);
+						this._EntryUserId = value.Id;
+					}
+					else
+					{
+						this._EntryUserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="MstUser_MstSupplier12", Storage="_MstUser1", ThisKey="UpdateUserId", OtherKey="Id", IsForeignKey=true)]
+		public MstUser MstUser1
+		{
+			get
+			{
+				return this._MstUser1.Entity;
+			}
+			set
+			{
+				MstUser previousValue = this._MstUser1.Entity;
+				if (((previousValue != value) 
+							|| (this._MstUser1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._MstUser1.Entity = null;
+						previousValue.MstSupplier1s1.Remove(this);
+					}
+					this._MstUser1.Entity = value;
+					if ((value != null))
+					{
+						value.MstSupplier1s1.Add(this);
+						this._UpdateUserId = value.Id;
+					}
+					else
+					{
+						this._UpdateUserId = default(int);
+					}
+					this.SendPropertyChanged("MstUser1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_MstItems(MstItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstSupplier1 = this;
+		}
+		
+		private void detach_MstItems(MstItem entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstSupplier1 = null;
+		}
+		
+		private void attach_TrnPurchaseOrders(TrnPurchaseOrder entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstSupplier1 = this;
+		}
+		
+		private void detach_TrnPurchaseOrders(TrnPurchaseOrder entity)
+		{
+			this.SendPropertyChanging();
+			entity.MstSupplier1 = null;
 		}
 	}
 }
