@@ -146,6 +146,7 @@ namespace RSJadeUtilities.Forms.Software
                 var beginningInInventories = from d in db.TrnStockInLines
                                              where d.TrnStockIn.IsLocked == true
                                              && d.TrnStockIn.StockInDate < dateStart.Date
+                                             && d.MstItem.IsInventory == true
                                              select new Models.MstInventoryReportModel
                                              {
                                                  Document = "Beg",
@@ -169,6 +170,7 @@ namespace RSJadeUtilities.Forms.Software
                                                where d.TrnSale.IsLocked == true
                                                && d.TrnSale.IsCancelled == false
                                                && d.TrnSale.SalesDate < dateStart.Date
+                                               && d.MstItem.IsInventory == true
                                                select new Models.MstInventoryReportModel
                                                {
                                                    Document = "Beg",
@@ -191,6 +193,7 @@ namespace RSJadeUtilities.Forms.Software
                 var beginningOutInventories = from d in db.TrnStockOutLines
                                               where d.TrnStockOut.IsLocked == true
                                               && d.TrnStockOut.StockOutDate < dateStart.Date
+                                              && d.MstItem.IsInventory == true
                                               select new Models.MstInventoryReportModel
                                               {
                                                   Document = "Beg",
@@ -216,6 +219,7 @@ namespace RSJadeUtilities.Forms.Software
                                            where d.TrnStockIn.IsLocked == true
                                            && d.TrnStockIn.StockInDate >= dateStart.Date
                                            && d.TrnStockIn.StockInDate <= dateEnd.Date
+                                           && d.MstItem.IsInventory == true
                                            select new Models.MstInventoryReportModel
                                            {
                                                Document = "Cur",
@@ -240,6 +244,7 @@ namespace RSJadeUtilities.Forms.Software
                                              && d.TrnSale.IsCancelled == false
                                              && d.TrnSale.SalesDate >= dateStart.Date
                                              && d.TrnSale.SalesDate <= dateEnd.Date
+                                             && d.MstItem.IsInventory == true
                                              select new Models.MstInventoryReportModel
                                              {
                                                  Document = "Cur",
@@ -263,6 +268,7 @@ namespace RSJadeUtilities.Forms.Software
                                             where d.TrnStockOut.IsLocked == true
                                             && d.TrnStockOut.StockOutDate >= dateStart.Date
                                             && d.TrnStockOut.StockOutDate <= dateEnd.Date
+                                            && d.MstItem.IsInventory == true
                                             select new Models.MstInventoryReportModel
                                             {
                                                 Document = "Cur",
@@ -329,8 +335,9 @@ namespace RSJadeUtilities.Forms.Software
             {
                 var beginningInInventories = from d in db.TrnStockInLines
                                              where d.TrnStockIn.IsLocked == true
-                                             && d.MstItem.DefaultSupplierId == supplierId
                                              && d.TrnStockIn.StockInDate < dateStart.Date
+                                             && d.MstItem.DefaultSupplierId == supplierId
+                                             && d.MstItem.IsInventory == true
                                              select new Models.MstInventoryReportModel
                                              {
                                                  Document = "Beg",
@@ -353,8 +360,9 @@ namespace RSJadeUtilities.Forms.Software
                 var beginningSoldInventories = from d in db.TrnSalesLines
                                                where d.TrnSale.IsLocked == true
                                                && d.TrnSale.IsCancelled == false
-                                               && d.MstItem.DefaultSupplierId == supplierId
                                                && d.TrnSale.SalesDate < dateStart.Date
+                                               && d.MstItem.DefaultSupplierId == supplierId
+                                               && d.MstItem.IsInventory == true
                                                select new Models.MstInventoryReportModel
                                                {
                                                    Document = "Beg",
@@ -376,8 +384,9 @@ namespace RSJadeUtilities.Forms.Software
 
                 var beginningOutInventories = from d in db.TrnStockOutLines
                                               where d.TrnStockOut.IsLocked == true
-                                              && d.MstItem.DefaultSupplierId == supplierId
                                               && d.TrnStockOut.StockOutDate < dateStart.Date
+                                              && d.MstItem.DefaultSupplierId == supplierId
+                                              && d.MstItem.IsInventory == true
                                               select new Models.MstInventoryReportModel
                                               {
                                                   Document = "Beg",
@@ -401,9 +410,10 @@ namespace RSJadeUtilities.Forms.Software
 
                 var currentInInventories = from d in db.TrnStockInLines
                                            where d.TrnStockIn.IsLocked == true
-                                           && d.MstItem.DefaultSupplierId == supplierId
                                            && d.TrnStockIn.StockInDate >= dateStart.Date
                                            && d.TrnStockIn.StockInDate <= dateEnd.Date
+                                           && d.MstItem.DefaultSupplierId == supplierId
+                                           && d.MstItem.IsInventory == true
                                            select new Models.MstInventoryReportModel
                                            {
                                                Document = "Cur",
@@ -426,9 +436,10 @@ namespace RSJadeUtilities.Forms.Software
                 var currentSoldInventories = from d in db.TrnSalesLines
                                              where d.TrnSale.IsLocked == true
                                              && d.TrnSale.IsCancelled == false
-                                             && d.MstItem.DefaultSupplierId == supplierId
                                              && d.TrnSale.SalesDate >= dateStart.Date
                                              && d.TrnSale.SalesDate <= dateEnd.Date
+                                             && d.MstItem.DefaultSupplierId == supplierId
+                                             && d.MstItem.IsInventory == true
                                              select new Models.MstInventoryReportModel
                                              {
                                                  Document = "Cur",
@@ -450,9 +461,10 @@ namespace RSJadeUtilities.Forms.Software
 
                 var currentOutInventories = from d in db.TrnStockOutLines
                                             where d.TrnStockOut.IsLocked == true
-                                            && d.MstItem.DefaultSupplierId == supplierId
                                             && d.TrnStockOut.StockOutDate >= dateStart.Date
                                             && d.TrnStockOut.StockOutDate <= dateEnd.Date
+                                            && d.MstItem.DefaultSupplierId == supplierId
+                                            && d.MstItem.IsInventory == true
                                             select new Models.MstInventoryReportModel
                                             {
                                                 Document = "Cur",
