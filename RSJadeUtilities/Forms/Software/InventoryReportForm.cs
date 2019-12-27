@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -691,56 +693,57 @@ namespace RSJadeUtilities.Forms.Software
         {
             try
             {
-                String filename = "";
-
-                SaveFileDialog sfd = new SaveFileDialog
+                DialogResult dialogResult = folderBrowserDialogGenerateCSV.ShowDialog();
+                if (dialogResult == DialogResult.OK)
                 {
-                    Filter = "CSV (*.csv)|*.csv",
-                    FileName = "InventoryReport_" + DateTime.Now.ToString("MMddyyyyhhmmss") + ".csv"
-                };
+                    StringBuilder csv = new StringBuilder();
 
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    if (File.Exists(filename))
+                    String[] header = {
+                        "Supplier",
+                        "Barcode",
+                        "Item Description",
+                        "Beg",
+                        "In",
+                        "Return",
+                        "Sold",
+                        "Out",
+                        "End",
+                        "Unit"
+                    };
+                    csv.AppendLine(String.Join(",", header));
+
+                    if (inventoryReportListData.Any())
                     {
-                        try
+                        foreach (var collection in inventoryReportListData)
                         {
-                            File.Delete(filename);
-                        }
-                        catch (IOException ex)
-                        {
-                            MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
+                            String[] data = {
+                                collection.InventoryReportListSupplier.Replace("," , ""),
+                                collection.InventoryReportListBarcode.Replace("," , ""),
+                                collection.InventoryReportListItemDescription.Replace("," , ""),
+                                collection.InventoryReportListBeginningQuantity.Replace("," , ""),
+                                collection.InventoryReportListInQuantity.Replace("," , ""),
+                                collection.InventoryReportListReturnQuantity.Replace("," , ""),
+                                collection.InventoryReportListSoldQuantity.Replace("," , ""),
+                                collection.InventoryReportListOutQuantity.Replace("," , ""),
+                                collection.InventoryReportListEndingQuantity.Replace("," , ""),
+                                collection.InventoryReportListUnit.Replace("," , "")
+                            };
 
-                    Int32 columnCount = dataGridViewInventoryReport.ColumnCount;
-
-                    String columnNames = "";
-                    String[] output = new String[dataGridViewInventoryReport.RowCount + 1];
-
-                    for (Int32 i = 0; i < columnCount; i++)
-                    {
-                        columnNames += dataGridViewInventoryReport.Columns[i].Name.ToString().Substring(19) + ",";
-                    }
-
-                    output[0] += columnNames;
-                    for (Int32 i = 1; (i - 1) < dataGridViewInventoryReport.RowCount; i++)
-                    {
-                        for (Int32 j = 0; j < columnCount; j++)
-                        {
-                            String data = "NA";
-                            if (dataGridViewInventoryReport.Rows[i - 1].Cells[j].Value != null)
-                            {
-                                data = dataGridViewInventoryReport.Rows[i - 1].Cells[j].Value.ToString().Replace(",", "");
-                            }
-
-                            output[i] += data + ",";
+                            csv.AppendLine(String.Join(",", data));
                         }
                     }
 
-                    File.WriteAllLines(sfd.FileName, output, Encoding.UTF8);
+                    String executingUser = WindowsIdentity.GetCurrent().Name;
 
-                    MessageBox.Show("Your file was successfully generated and its ready for use.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DirectorySecurity securityRules = new DirectorySecurity();
+                    securityRules.AddAccessRule(new FileSystemAccessRule(executingUser, FileSystemRights.Read, AccessControlType.Allow));
+                    securityRules.AddAccessRule(new FileSystemAccessRule(executingUser, FileSystemRights.FullControl, AccessControlType.Allow));
+
+                    DirectoryInfo createDirectorySTCSV = Directory.CreateDirectory(folderBrowserDialogGenerateCSV.SelectedPath, securityRules);
+                    File.WriteAllText(createDirectorySTCSV.FullName + "\\InventoryReport_" + DateTime.Now.ToString("yyyyMMdd_hhmmss") + ".csv", csv.ToString(), Encoding.GetEncoding("iso-8859-1"));
+
+                    MessageBox.Show("Generate CSV Successful!", "Generate CSV", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
                 }
             }
             catch (Exception ex)

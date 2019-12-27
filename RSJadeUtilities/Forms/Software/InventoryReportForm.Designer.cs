@@ -42,6 +42,18 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.buttonGet = new System.Windows.Forms.Button();
             this.dataGridViewInventoryReport = new System.Windows.Forms.DataGridView();
+            this.InventoryReportListSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListBarcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListItemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListBeginningQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListInQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListReturnQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListSoldQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListOutQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListEndingQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.dateTimePickerDateEnd = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
@@ -63,18 +75,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.bindingSourceInventoryReport = new System.Windows.Forms.BindingSource(this.components);
-            this.InventoryReportListSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListBarcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListItemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListBeginningQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListInQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListReturnQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListSoldQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListOutQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListEndingQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListCost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.InventoryReportListAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.folderBrowserDialogGenerateCSV = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInventoryReport)).BeginInit();
@@ -154,6 +155,108 @@
             this.dataGridViewInventoryReport.Size = new System.Drawing.Size(1265, 513);
             this.dataGridViewInventoryReport.TabIndex = 29;
             this.dataGridViewInventoryReport.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewInventoryReport_CellClick);
+            // 
+            // InventoryReportListSupplier
+            // 
+            this.InventoryReportListSupplier.DataPropertyName = "InventoryReportListSupplier";
+            this.InventoryReportListSupplier.HeaderText = "Supplier";
+            this.InventoryReportListSupplier.Name = "InventoryReportListSupplier";
+            this.InventoryReportListSupplier.ReadOnly = true;
+            this.InventoryReportListSupplier.Width = 150;
+            // 
+            // InventoryReportListBarcode
+            // 
+            this.InventoryReportListBarcode.DataPropertyName = "InventoryReportListBarcode";
+            this.InventoryReportListBarcode.HeaderText = "Barcode";
+            this.InventoryReportListBarcode.Name = "InventoryReportListBarcode";
+            this.InventoryReportListBarcode.ReadOnly = true;
+            // 
+            // InventoryReportListItemDescription
+            // 
+            this.InventoryReportListItemDescription.DataPropertyName = "InventoryReportListItemDescription";
+            this.InventoryReportListItemDescription.HeaderText = "Item Description";
+            this.InventoryReportListItemDescription.Name = "InventoryReportListItemDescription";
+            this.InventoryReportListItemDescription.ReadOnly = true;
+            this.InventoryReportListItemDescription.Width = 300;
+            // 
+            // InventoryReportListBeginningQuantity
+            // 
+            this.InventoryReportListBeginningQuantity.DataPropertyName = "InventoryReportListBeginningQuantity";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.InventoryReportListBeginningQuantity.DefaultCellStyle = dataGridViewCellStyle1;
+            this.InventoryReportListBeginningQuantity.HeaderText = "Beg";
+            this.InventoryReportListBeginningQuantity.Name = "InventoryReportListBeginningQuantity";
+            this.InventoryReportListBeginningQuantity.ReadOnly = true;
+            // 
+            // InventoryReportListInQuantity
+            // 
+            this.InventoryReportListInQuantity.DataPropertyName = "InventoryReportListInQuantity";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.InventoryReportListInQuantity.DefaultCellStyle = dataGridViewCellStyle2;
+            this.InventoryReportListInQuantity.HeaderText = "In";
+            this.InventoryReportListInQuantity.Name = "InventoryReportListInQuantity";
+            this.InventoryReportListInQuantity.ReadOnly = true;
+            // 
+            // InventoryReportListReturnQuantity
+            // 
+            this.InventoryReportListReturnQuantity.DataPropertyName = "InventoryReportListReturnQuantity";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.InventoryReportListReturnQuantity.DefaultCellStyle = dataGridViewCellStyle3;
+            this.InventoryReportListReturnQuantity.HeaderText = "Return";
+            this.InventoryReportListReturnQuantity.Name = "InventoryReportListReturnQuantity";
+            this.InventoryReportListReturnQuantity.ReadOnly = true;
+            // 
+            // InventoryReportListSoldQuantity
+            // 
+            this.InventoryReportListSoldQuantity.DataPropertyName = "InventoryReportListSoldQuantity";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.InventoryReportListSoldQuantity.DefaultCellStyle = dataGridViewCellStyle4;
+            this.InventoryReportListSoldQuantity.HeaderText = "Sold";
+            this.InventoryReportListSoldQuantity.Name = "InventoryReportListSoldQuantity";
+            this.InventoryReportListSoldQuantity.ReadOnly = true;
+            // 
+            // InventoryReportListOutQuantity
+            // 
+            this.InventoryReportListOutQuantity.DataPropertyName = "InventoryReportListOutQuantity";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.InventoryReportListOutQuantity.DefaultCellStyle = dataGridViewCellStyle5;
+            this.InventoryReportListOutQuantity.HeaderText = "Out";
+            this.InventoryReportListOutQuantity.Name = "InventoryReportListOutQuantity";
+            this.InventoryReportListOutQuantity.ReadOnly = true;
+            // 
+            // InventoryReportListEndingQuantity
+            // 
+            this.InventoryReportListEndingQuantity.DataPropertyName = "InventoryReportListEndingQuantity";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.InventoryReportListEndingQuantity.DefaultCellStyle = dataGridViewCellStyle6;
+            this.InventoryReportListEndingQuantity.HeaderText = "End";
+            this.InventoryReportListEndingQuantity.Name = "InventoryReportListEndingQuantity";
+            this.InventoryReportListEndingQuantity.ReadOnly = true;
+            // 
+            // InventoryReportListUnit
+            // 
+            this.InventoryReportListUnit.DataPropertyName = "InventoryReportListUnit";
+            this.InventoryReportListUnit.HeaderText = "Unit";
+            this.InventoryReportListUnit.Name = "InventoryReportListUnit";
+            this.InventoryReportListUnit.ReadOnly = true;
+            // 
+            // InventoryReportListCost
+            // 
+            this.InventoryReportListCost.DataPropertyName = "InventoryReportListCost";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.InventoryReportListCost.DefaultCellStyle = dataGridViewCellStyle7;
+            this.InventoryReportListCost.HeaderText = "Cost";
+            this.InventoryReportListCost.Name = "InventoryReportListCost";
+            this.InventoryReportListCost.ReadOnly = true;
+            // 
+            // InventoryReportListAmount
+            // 
+            this.InventoryReportListAmount.DataPropertyName = "InventoryReportListAmount";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            this.InventoryReportListAmount.DefaultCellStyle = dataGridViewCellStyle8;
+            this.InventoryReportListAmount.HeaderText = "Amount";
+            this.InventoryReportListAmount.Name = "InventoryReportListAmount";
+            this.InventoryReportListAmount.ReadOnly = true;
             // 
             // label4
             // 
@@ -380,108 +483,6 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Inventory Report";
             // 
-            // InventoryReportListSupplier
-            // 
-            this.InventoryReportListSupplier.DataPropertyName = "InventoryReportListSupplier";
-            this.InventoryReportListSupplier.HeaderText = "Supplier";
-            this.InventoryReportListSupplier.Name = "InventoryReportListSupplier";
-            this.InventoryReportListSupplier.ReadOnly = true;
-            this.InventoryReportListSupplier.Width = 150;
-            // 
-            // InventoryReportListBarcode
-            // 
-            this.InventoryReportListBarcode.DataPropertyName = "InventoryReportListBarcode";
-            this.InventoryReportListBarcode.HeaderText = "Barcode";
-            this.InventoryReportListBarcode.Name = "InventoryReportListBarcode";
-            this.InventoryReportListBarcode.ReadOnly = true;
-            // 
-            // InventoryReportListItemDescription
-            // 
-            this.InventoryReportListItemDescription.DataPropertyName = "InventoryReportListItemDescription";
-            this.InventoryReportListItemDescription.HeaderText = "Item Description";
-            this.InventoryReportListItemDescription.Name = "InventoryReportListItemDescription";
-            this.InventoryReportListItemDescription.ReadOnly = true;
-            this.InventoryReportListItemDescription.Width = 300;
-            // 
-            // InventoryReportListBeginningQuantity
-            // 
-            this.InventoryReportListBeginningQuantity.DataPropertyName = "InventoryReportListBeginningQuantity";
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.InventoryReportListBeginningQuantity.DefaultCellStyle = dataGridViewCellStyle1;
-            this.InventoryReportListBeginningQuantity.HeaderText = "Beg";
-            this.InventoryReportListBeginningQuantity.Name = "InventoryReportListBeginningQuantity";
-            this.InventoryReportListBeginningQuantity.ReadOnly = true;
-            // 
-            // InventoryReportListInQuantity
-            // 
-            this.InventoryReportListInQuantity.DataPropertyName = "InventoryReportListInQuantity";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.InventoryReportListInQuantity.DefaultCellStyle = dataGridViewCellStyle2;
-            this.InventoryReportListInQuantity.HeaderText = "In";
-            this.InventoryReportListInQuantity.Name = "InventoryReportListInQuantity";
-            this.InventoryReportListInQuantity.ReadOnly = true;
-            // 
-            // InventoryReportListReturnQuantity
-            // 
-            this.InventoryReportListReturnQuantity.DataPropertyName = "InventoryReportListReturnQuantity";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.InventoryReportListReturnQuantity.DefaultCellStyle = dataGridViewCellStyle3;
-            this.InventoryReportListReturnQuantity.HeaderText = "Return";
-            this.InventoryReportListReturnQuantity.Name = "InventoryReportListReturnQuantity";
-            this.InventoryReportListReturnQuantity.ReadOnly = true;
-            // 
-            // InventoryReportListSoldQuantity
-            // 
-            this.InventoryReportListSoldQuantity.DataPropertyName = "InventoryReportListSoldQuantity";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.InventoryReportListSoldQuantity.DefaultCellStyle = dataGridViewCellStyle4;
-            this.InventoryReportListSoldQuantity.HeaderText = "Sold";
-            this.InventoryReportListSoldQuantity.Name = "InventoryReportListSoldQuantity";
-            this.InventoryReportListSoldQuantity.ReadOnly = true;
-            // 
-            // InventoryReportListOutQuantity
-            // 
-            this.InventoryReportListOutQuantity.DataPropertyName = "InventoryReportListOutQuantity";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.InventoryReportListOutQuantity.DefaultCellStyle = dataGridViewCellStyle5;
-            this.InventoryReportListOutQuantity.HeaderText = "Out";
-            this.InventoryReportListOutQuantity.Name = "InventoryReportListOutQuantity";
-            this.InventoryReportListOutQuantity.ReadOnly = true;
-            // 
-            // InventoryReportListEndingQuantity
-            // 
-            this.InventoryReportListEndingQuantity.DataPropertyName = "InventoryReportListEndingQuantity";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.InventoryReportListEndingQuantity.DefaultCellStyle = dataGridViewCellStyle6;
-            this.InventoryReportListEndingQuantity.HeaderText = "End";
-            this.InventoryReportListEndingQuantity.Name = "InventoryReportListEndingQuantity";
-            this.InventoryReportListEndingQuantity.ReadOnly = true;
-            // 
-            // InventoryReportListUnit
-            // 
-            this.InventoryReportListUnit.DataPropertyName = "InventoryReportListUnit";
-            this.InventoryReportListUnit.HeaderText = "Unit";
-            this.InventoryReportListUnit.Name = "InventoryReportListUnit";
-            this.InventoryReportListUnit.ReadOnly = true;
-            // 
-            // InventoryReportListCost
-            // 
-            this.InventoryReportListCost.DataPropertyName = "InventoryReportListCost";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.InventoryReportListCost.DefaultCellStyle = dataGridViewCellStyle7;
-            this.InventoryReportListCost.HeaderText = "Cost";
-            this.InventoryReportListCost.Name = "InventoryReportListCost";
-            this.InventoryReportListCost.ReadOnly = true;
-            // 
-            // InventoryReportListAmount
-            // 
-            this.InventoryReportListAmount.DataPropertyName = "InventoryReportListAmount";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            this.InventoryReportListAmount.DefaultCellStyle = dataGridViewCellStyle8;
-            this.InventoryReportListAmount.HeaderText = "Amount";
-            this.InventoryReportListAmount.Name = "InventoryReportListAmount";
-            this.InventoryReportListAmount.ReadOnly = true;
-            // 
             // InventoryReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -550,5 +551,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListUnit;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListCost;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListAmount;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogGenerateCSV;
     }
 }
