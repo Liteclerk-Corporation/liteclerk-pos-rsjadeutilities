@@ -192,6 +192,48 @@ namespace RSJadeUtilities.Forms.Software
                                                    Amount = 0
                                                };
 
+                List<Models.MstInventoryReportModel> beginningSoldComponentInventories = new List<Models.MstInventoryReportModel>();
+
+                var beginningSoldComponents = from d in db.TrnSalesLines
+                                              where d.TrnSale.IsLocked == true
+                                              && d.TrnSale.IsCancelled == false
+                                              && d.TrnSale.SalesDate < dateStart.Date
+                                              && d.MstItem.IsInventory == false
+                                              && d.MstItem.MstItemComponents.Any() == true
+                                              select d;
+
+                if (beginningSoldComponents.ToList().Any() == true)
+                {
+                    foreach (var beginningSoldComponent in beginningSoldComponents.ToList())
+                    {
+                        var itemComponents = beginningSoldComponent.MstItem.MstItemComponents;
+                        if (itemComponents.Any() == true)
+                        {
+                            foreach (var itemComponent in itemComponents.ToList())
+                            {
+                                beginningSoldComponentInventories.Add(new Models.MstInventoryReportModel()
+                                {
+                                    Document = "Cur",
+                                    Id = "Beg-Sold-Component" + itemComponent.Id,
+                                    InventoryDate = beginningSoldComponent.TrnSale.SalesDate,
+                                    Supplier = itemComponent.MstItem1.MstSupplier1.Supplier,
+                                    Barcode = itemComponent.MstItem1.BarCode,
+                                    ItemDescription = itemComponent.MstItem1.ItemDescription,
+                                    BeginningQuantity = 0,
+                                    InQuantity = 0,
+                                    ReturnQuantity = 0,
+                                    SoldQuantity = itemComponent.Quantity * beginningSoldComponent.Quantity,
+                                    OutQuantity = 0,
+                                    EndingQuantity = 0,
+                                    Unit = itemComponent.MstItem1.MstUnit.Unit,
+                                    Cost = itemComponent.MstItem1.Cost,
+                                    Amount = 0
+                                });
+                            }
+                        }
+                    }
+                }
+
                 var beginningOutInventories = from d in db.TrnStockOutLines
                                               where d.TrnStockOut.IsLocked == true
                                               && d.TrnStockOut.StockOutDate < dateStart.Date
@@ -215,7 +257,7 @@ namespace RSJadeUtilities.Forms.Software
                                                   Amount = 0
                                               };
 
-                var unionBeginningInventories = beginningInInventories.ToList().Union(beginningSoldInventories.ToList()).Union(beginningOutInventories.ToList());
+                var unionBeginningInventories = beginningInInventories.ToList().Union(beginningSoldInventories.ToList()).Union(beginningSoldComponentInventories.ToList()).Union(beginningOutInventories.ToList());
 
                 var currentInInventories = from d in db.TrnStockInLines
                                            where d.TrnStockIn.IsLocked == true
@@ -266,6 +308,49 @@ namespace RSJadeUtilities.Forms.Software
                                                  Amount = 0
                                              };
 
+                List<Models.MstInventoryReportModel> currentSoldComponentInventories = new List<Models.MstInventoryReportModel>();
+
+                var currentSoldComponents = from d in db.TrnSalesLines
+                                            where d.TrnSale.IsLocked == true
+                                            && d.TrnSale.IsCancelled == false
+                                            && d.TrnSale.SalesDate >= dateStart.Date
+                                            && d.TrnSale.SalesDate <= dateEnd.Date
+                                            && d.MstItem.IsInventory == false
+                                            && d.MstItem.MstItemComponents.Any() == true
+                                            select d;
+
+                if (currentSoldComponents.ToList().Any() == true)
+                {
+                    foreach (var currentSoldComponent in currentSoldComponents.ToList())
+                    {
+                        var itemComponents = currentSoldComponent.MstItem.MstItemComponents;
+                        if (itemComponents.Any() == true)
+                        {
+                            foreach (var itemComponent in itemComponents.ToList())
+                            {
+                                currentSoldComponentInventories.Add(new Models.MstInventoryReportModel()
+                                {
+                                    Document = "Cur",
+                                    Id = "Cur-Sold-Component" + itemComponent.Id,
+                                    InventoryDate = currentSoldComponent.TrnSale.SalesDate,
+                                    Supplier = itemComponent.MstItem1.MstSupplier1.Supplier,
+                                    Barcode = itemComponent.MstItem1.BarCode,
+                                    ItemDescription = itemComponent.MstItem1.ItemDescription,
+                                    BeginningQuantity = 0,
+                                    InQuantity = 0,
+                                    ReturnQuantity = 0,
+                                    SoldQuantity = itemComponent.Quantity * currentSoldComponent.Quantity,
+                                    OutQuantity = 0,
+                                    EndingQuantity = 0,
+                                    Unit = itemComponent.MstItem1.MstUnit.Unit,
+                                    Cost = itemComponent.MstItem1.Cost,
+                                    Amount = 0
+                                });
+                            }
+                        }
+                    }
+                }
+
                 var currentOutInventories = from d in db.TrnStockOutLines
                                             where d.TrnStockOut.IsLocked == true
                                             && d.TrnStockOut.StockOutDate >= dateStart.Date
@@ -290,7 +375,7 @@ namespace RSJadeUtilities.Forms.Software
                                                 Amount = 0
                                             };
 
-                var unionCurrentInventories = currentInInventories.ToList().Union(currentSoldInventories.ToList()).Union(currentOutInventories.ToList());
+                var unionCurrentInventories = currentInInventories.ToList().Union(currentSoldInventories.ToList()).Union(currentSoldComponentInventories.ToList()).Union(currentOutInventories.ToList());
 
                 var unionInventories = unionBeginningInventories.ToList().Union(unionCurrentInventories.ToList());
                 if (unionInventories.Any())
@@ -384,6 +469,48 @@ namespace RSJadeUtilities.Forms.Software
                                                    Amount = 0
                                                };
 
+                List<Models.MstInventoryReportModel> beginningSoldComponentInventories = new List<Models.MstInventoryReportModel>();
+
+                var beginningSoldComponents = from d in db.TrnSalesLines
+                                              where d.TrnSale.IsLocked == true
+                                              && d.TrnSale.IsCancelled == false
+                                              && d.TrnSale.SalesDate < dateStart.Date
+                                              && d.MstItem.IsInventory == false
+                                              && d.MstItem.MstItemComponents.Where(c => c.MstItem1.DefaultSupplierId == supplierId).Any() == true
+                                              select d;
+
+                if (beginningSoldComponents.ToList().Any() == true)
+                {
+                    foreach (var beginningSoldComponent in beginningSoldComponents.ToList())
+                    {
+                        var itemComponents = beginningSoldComponent.MstItem.MstItemComponents.Where(c => c.MstItem1.DefaultSupplierId == supplierId);
+                        if (itemComponents.Any() == true)
+                        {
+                            foreach (var itemComponent in itemComponents.ToList())
+                            {
+                                beginningSoldComponentInventories.Add(new Models.MstInventoryReportModel()
+                                {
+                                    Document = "Cur",
+                                    Id = "Beg-Sold-Component" + itemComponent.Id,
+                                    InventoryDate = beginningSoldComponent.TrnSale.SalesDate,
+                                    Supplier = itemComponent.MstItem1.MstSupplier1.Supplier,
+                                    Barcode = itemComponent.MstItem1.BarCode,
+                                    ItemDescription = itemComponent.MstItem1.ItemDescription,
+                                    BeginningQuantity = 0,
+                                    InQuantity = 0,
+                                    ReturnQuantity = 0,
+                                    SoldQuantity = itemComponent.Quantity * beginningSoldComponent.Quantity,
+                                    OutQuantity = 0,
+                                    EndingQuantity = 0,
+                                    Unit = itemComponent.MstItem1.MstUnit.Unit,
+                                    Cost = itemComponent.MstItem1.Cost,
+                                    Amount = 0
+                                });
+                            }
+                        }
+                    }
+                }
+
                 var beginningOutInventories = from d in db.TrnStockOutLines
                                               where d.TrnStockOut.IsLocked == true
                                               && d.TrnStockOut.StockOutDate < dateStart.Date
@@ -408,7 +535,7 @@ namespace RSJadeUtilities.Forms.Software
                                                   Amount = 0
                                               };
 
-                var unionBeginningInventories = beginningInInventories.ToList().Union(beginningSoldInventories.ToList()).Union(beginningOutInventories.ToList());
+                var unionBeginningInventories = beginningInInventories.ToList().Union(beginningSoldInventories.ToList()).Union(beginningSoldComponentInventories.ToList()).Union(beginningOutInventories.ToList());
 
                 var currentInInventories = from d in db.TrnStockInLines
                                            where d.TrnStockIn.IsLocked == true
@@ -461,6 +588,49 @@ namespace RSJadeUtilities.Forms.Software
                                                  Amount = 0
                                              };
 
+                List<Models.MstInventoryReportModel> currentSoldComponentInventories = new List<Models.MstInventoryReportModel>();
+
+                var currentSoldComponents = from d in db.TrnSalesLines
+                                            where d.TrnSale.IsLocked == true
+                                            && d.TrnSale.IsCancelled == false
+                                            && d.TrnSale.SalesDate >= dateStart.Date
+                                            && d.TrnSale.SalesDate <= dateEnd.Date
+                                            && d.MstItem.IsInventory == false
+                                            && d.MstItem.MstItemComponents.Where(c => c.MstItem1.DefaultSupplierId == supplierId).Any() == true
+                                            select d;
+
+                if (currentSoldComponents.ToList().Any() == true)
+                {
+                    foreach (var currentSoldComponent in currentSoldComponents.ToList())
+                    {
+                        var itemComponents = currentSoldComponent.MstItem.MstItemComponents.Where(c => c.MstItem1.DefaultSupplierId == supplierId);
+                        if (itemComponents.Any() == true)
+                        {
+                            foreach (var itemComponent in itemComponents.ToList())
+                            {
+                                currentSoldComponentInventories.Add(new Models.MstInventoryReportModel()
+                                {
+                                    Document = "Cur",
+                                    Id = "Cur-Sold-Component" + itemComponent.Id,
+                                    InventoryDate = currentSoldComponent.TrnSale.SalesDate,
+                                    Supplier = itemComponent.MstItem1.MstSupplier1.Supplier,
+                                    Barcode = itemComponent.MstItem1.BarCode,
+                                    ItemDescription = itemComponent.MstItem1.ItemDescription,
+                                    BeginningQuantity = 0,
+                                    InQuantity = 0,
+                                    ReturnQuantity = 0,
+                                    SoldQuantity = itemComponent.Quantity * currentSoldComponent.Quantity,
+                                    OutQuantity = 0,
+                                    EndingQuantity = 0,
+                                    Unit = itemComponent.MstItem1.MstUnit.Unit,
+                                    Cost = itemComponent.MstItem1.Cost,
+                                    Amount = 0
+                                });
+                            }
+                        }
+                    }
+                }
+
                 var currentOutInventories = from d in db.TrnStockOutLines
                                             where d.TrnStockOut.IsLocked == true
                                             && d.TrnStockOut.StockOutDate >= dateStart.Date
@@ -486,7 +656,7 @@ namespace RSJadeUtilities.Forms.Software
                                                 Amount = 0
                                             };
 
-                var unionCurrentInventories = currentInInventories.ToList().Union(currentSoldInventories.ToList()).Union(currentOutInventories.ToList());
+                var unionCurrentInventories = currentInInventories.ToList().Union(currentSoldInventories.ToList()).Union(currentSoldComponentInventories.ToList()).Union(currentOutInventories.ToList());
 
                 var unionInventories = unionBeginningInventories.ToList().Union(unionCurrentInventories.ToList());
                 if (unionInventories.Any())
@@ -717,16 +887,16 @@ namespace RSJadeUtilities.Forms.Software
                         foreach (var collection in inventoryReportListData)
                         {
                             String[] data = {
-                                collection.InventoryReportListSupplier.Replace("," , ""),
-                                collection.InventoryReportListBarcode.Replace("," , ""),
-                                collection.InventoryReportListItemDescription.Replace("," , ""),
-                                collection.InventoryReportListBeginningQuantity.Replace("," , ""),
-                                collection.InventoryReportListInQuantity.Replace("," , ""),
-                                collection.InventoryReportListReturnQuantity.Replace("," , ""),
-                                collection.InventoryReportListSoldQuantity.Replace("," , ""),
-                                collection.InventoryReportListOutQuantity.Replace("," , ""),
-                                collection.InventoryReportListEndingQuantity.Replace("," , ""),
-                                collection.InventoryReportListUnit.Replace("," , "")
+                                collection.InventoryReportListSupplier.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListBarcode.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListItemDescription.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListBeginningQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListInQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListReturnQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListSoldQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListOutQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListEndingQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListUnit.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty)
                             };
 
                             csv.AppendLine(String.Join(",", data));
