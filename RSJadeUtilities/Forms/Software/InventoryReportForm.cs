@@ -149,6 +149,7 @@ namespace RSJadeUtilities.Forms.Software
                                              where d.TrnStockIn.IsLocked == true
                                              && d.TrnStockIn.StockInDate < dateStart.Date
                                              && d.MstItem.IsInventory == true
+                                             && d.MstItem.IsLocked == true
                                              select new Models.MstInventoryReportModel
                                              {
                                                  Document = "Beg",
@@ -173,6 +174,7 @@ namespace RSJadeUtilities.Forms.Software
                                                && d.TrnSale.IsCancelled == false
                                                && d.TrnSale.SalesDate < dateStart.Date
                                                && d.MstItem.IsInventory == true
+                                               && d.MstItem.IsLocked == true
                                                select new Models.MstInventoryReportModel
                                                {
                                                    Document = "Beg",
@@ -200,6 +202,7 @@ namespace RSJadeUtilities.Forms.Software
                                               && d.TrnSale.SalesDate < dateStart.Date
                                               && d.MstItem.IsInventory == false
                                               && d.MstItem.MstItemComponents.Any() == true
+                                              && d.MstItem.IsLocked == true
                                               select d;
 
                 if (beginningSoldComponents.ToList().Any() == true)
@@ -238,6 +241,7 @@ namespace RSJadeUtilities.Forms.Software
                                               where d.TrnStockOut.IsLocked == true
                                               && d.TrnStockOut.StockOutDate < dateStart.Date
                                               && d.MstItem.IsInventory == true
+                                              && d.MstItem.IsLocked == true
                                               select new Models.MstInventoryReportModel
                                               {
                                                   Document = "Beg",
@@ -264,6 +268,7 @@ namespace RSJadeUtilities.Forms.Software
                                            && d.TrnStockIn.StockInDate >= dateStart.Date
                                            && d.TrnStockIn.StockInDate <= dateEnd.Date
                                            && d.MstItem.IsInventory == true
+                                           && d.MstItem.IsLocked == true
                                            select new Models.MstInventoryReportModel
                                            {
                                                Document = "Cur",
@@ -289,6 +294,7 @@ namespace RSJadeUtilities.Forms.Software
                                              && d.TrnSale.SalesDate >= dateStart.Date
                                              && d.TrnSale.SalesDate <= dateEnd.Date
                                              && d.MstItem.IsInventory == true
+                                             && d.MstItem.IsLocked == true
                                              select new Models.MstInventoryReportModel
                                              {
                                                  Document = "Cur",
@@ -317,6 +323,7 @@ namespace RSJadeUtilities.Forms.Software
                                             && d.TrnSale.SalesDate <= dateEnd.Date
                                             && d.MstItem.IsInventory == false
                                             && d.MstItem.MstItemComponents.Any() == true
+                                            && d.MstItem.IsLocked == true
                                             select d;
 
                 if (currentSoldComponents.ToList().Any() == true)
@@ -356,6 +363,7 @@ namespace RSJadeUtilities.Forms.Software
                                             && d.TrnStockOut.StockOutDate >= dateStart.Date
                                             && d.TrnStockOut.StockOutDate <= dateEnd.Date
                                             && d.MstItem.IsInventory == true
+                                            && d.MstItem.IsLocked == true
                                             select new Models.MstInventoryReportModel
                                             {
                                                 Document = "Cur",
@@ -397,8 +405,8 @@ namespace RSJadeUtilities.Forms.Software
                                           BeginningQuantity = g.Sum(s => s.BeginningQuantity),
                                           InQuantity = g.Sum(s => s.InQuantity),
                                           ReturnQuantity = g.Sum(s => s.ReturnQuantity),
-                                          SoldQuantity = g.Sum(s => s.SoldQuantity),
-                                          OutQuantity = g.Sum(s => s.OutQuantity),
+                                          SoldQuantity = g.Sum(s => s.SoldQuantity) * -1,
+                                          OutQuantity = g.Sum(s => s.OutQuantity) * -1,
                                           EndingQuantity = g.Sum(s => (s.BeginningQuantity + s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity),
                                           Unit = g.Key.Unit,
                                           Cost = g.Key.Cost,
@@ -425,6 +433,7 @@ namespace RSJadeUtilities.Forms.Software
                                              && d.TrnStockIn.StockInDate < dateStart.Date
                                              && d.MstItem.DefaultSupplierId == supplierId
                                              && d.MstItem.IsInventory == true
+                                             && d.MstItem.IsLocked == true
                                              select new Models.MstInventoryReportModel
                                              {
                                                  Document = "Beg",
@@ -450,6 +459,7 @@ namespace RSJadeUtilities.Forms.Software
                                                && d.TrnSale.SalesDate < dateStart.Date
                                                && d.MstItem.DefaultSupplierId == supplierId
                                                && d.MstItem.IsInventory == true
+                                               && d.MstItem.IsLocked == true
                                                select new Models.MstInventoryReportModel
                                                {
                                                    Document = "Beg",
@@ -477,6 +487,7 @@ namespace RSJadeUtilities.Forms.Software
                                               && d.TrnSale.SalesDate < dateStart.Date
                                               && d.MstItem.IsInventory == false
                                               && d.MstItem.MstItemComponents.Where(c => c.MstItem1.DefaultSupplierId == supplierId).Any() == true
+                                              && d.MstItem.IsLocked == true
                                               select d;
 
                 if (beginningSoldComponents.ToList().Any() == true)
@@ -516,6 +527,7 @@ namespace RSJadeUtilities.Forms.Software
                                               && d.TrnStockOut.StockOutDate < dateStart.Date
                                               && d.MstItem.DefaultSupplierId == supplierId
                                               && d.MstItem.IsInventory == true
+                                              && d.MstItem.IsLocked == true
                                               select new Models.MstInventoryReportModel
                                               {
                                                   Document = "Beg",
@@ -543,6 +555,7 @@ namespace RSJadeUtilities.Forms.Software
                                            && d.TrnStockIn.StockInDate <= dateEnd.Date
                                            && d.MstItem.DefaultSupplierId == supplierId
                                            && d.MstItem.IsInventory == true
+                                           && d.MstItem.IsLocked == true
                                            select new Models.MstInventoryReportModel
                                            {
                                                Document = "Cur",
@@ -569,6 +582,7 @@ namespace RSJadeUtilities.Forms.Software
                                              && d.TrnSale.SalesDate <= dateEnd.Date
                                              && d.MstItem.DefaultSupplierId == supplierId
                                              && d.MstItem.IsInventory == true
+                                             && d.MstItem.IsLocked == true
                                              select new Models.MstInventoryReportModel
                                              {
                                                  Document = "Cur",
@@ -597,6 +611,7 @@ namespace RSJadeUtilities.Forms.Software
                                             && d.TrnSale.SalesDate <= dateEnd.Date
                                             && d.MstItem.IsInventory == false
                                             && d.MstItem.MstItemComponents.Where(c => c.MstItem1.DefaultSupplierId == supplierId).Any() == true
+                                            && d.MstItem.IsLocked == true
                                             select d;
 
                 if (currentSoldComponents.ToList().Any() == true)
@@ -637,6 +652,7 @@ namespace RSJadeUtilities.Forms.Software
                                             && d.TrnStockOut.StockOutDate <= dateEnd.Date
                                             && d.MstItem.DefaultSupplierId == supplierId
                                             && d.MstItem.IsInventory == true
+                                            && d.MstItem.IsLocked == true
                                             select new Models.MstInventoryReportModel
                                             {
                                                 Document = "Cur",
@@ -678,8 +694,8 @@ namespace RSJadeUtilities.Forms.Software
                                           BeginningQuantity = g.Sum(s => s.BeginningQuantity),
                                           InQuantity = g.Sum(s => s.InQuantity),
                                           ReturnQuantity = g.Sum(s => s.ReturnQuantity),
-                                          SoldQuantity = g.Sum(s => s.SoldQuantity),
-                                          OutQuantity = g.Sum(s => s.OutQuantity),
+                                          SoldQuantity = g.Sum(s => s.SoldQuantity) * -1,
+                                          OutQuantity = g.Sum(s => s.OutQuantity) * -1,
                                           EndingQuantity = g.Sum(s => (s.BeginningQuantity + s.InQuantity + s.ReturnQuantity) - s.SoldQuantity - s.OutQuantity),
                                           Unit = g.Key.Unit,
                                           Cost = g.Key.Cost,
@@ -886,16 +902,52 @@ namespace RSJadeUtilities.Forms.Software
                     {
                         foreach (var collection in inventoryReportListData)
                         {
+                            String begQuantity = "-";
+                            if (Convert.ToDecimal(collection.InventoryReportListBeginningQuantity) != 0)
+                            {
+                                begQuantity = collection.InventoryReportListBeginningQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            }
+
+                            String inQuantity = "-";
+                            if (Convert.ToDecimal(collection.InventoryReportListInQuantity) != 0)
+                            {
+                                inQuantity = collection.InventoryReportListInQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            }
+
+                            String returnQuantity = "-";
+                            if (Convert.ToDecimal(collection.InventoryReportListReturnQuantity) != 0)
+                            {
+                                returnQuantity = collection.InventoryReportListReturnQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            }
+
+                            String soldQuantity = "-";
+                            if (Convert.ToDecimal(collection.InventoryReportListSoldQuantity) != 0)
+                            {
+                                soldQuantity = collection.InventoryReportListSoldQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            }
+
+                            String outQuantity = "-";
+                            if (Convert.ToDecimal(collection.InventoryReportListOutQuantity) != 0)
+                            {
+                                outQuantity = collection.InventoryReportListOutQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            }
+
+                            String endQuantity = "-";
+                            if (Convert.ToDecimal(collection.InventoryReportListEndingQuantity) != 0)
+                            {
+                                endQuantity = collection.InventoryReportListEndingQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            }
+
                             String[] data = {
                                 collection.InventoryReportListSupplier.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
                                 collection.InventoryReportListBarcode.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
                                 collection.InventoryReportListItemDescription.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
-                                collection.InventoryReportListBeginningQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
-                                collection.InventoryReportListInQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
-                                collection.InventoryReportListReturnQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
-                                collection.InventoryReportListSoldQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
-                                collection.InventoryReportListOutQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
-                                collection.InventoryReportListEndingQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                begQuantity,
+                                inQuantity,
+                                returnQuantity,
+                                soldQuantity,
+                                outQuantity,
+                                endQuantity,
                                 collection.InventoryReportListUnit.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty)
                             };
 
