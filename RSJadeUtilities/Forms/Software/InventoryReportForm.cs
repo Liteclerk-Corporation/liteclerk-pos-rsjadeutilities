@@ -900,7 +900,7 @@ namespace RSJadeUtilities.Forms.Software
 
                     if (inventoryReportListData.Any())
                     {
-                        foreach (var collection in inventoryReportListData)
+                        foreach (var collection in inventoryReportListData.OrderBy(d => d.InventoryReportListSupplier))
                         {
                             String begQuantity = "-";
                             if (Convert.ToDecimal(collection.InventoryReportListBeginningQuantity) != 0)
