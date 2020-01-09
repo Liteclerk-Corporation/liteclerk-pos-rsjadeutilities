@@ -902,52 +902,52 @@ namespace RSJadeUtilities.Forms.Software
                     {
                         foreach (var collection in inventoryReportListData.OrderBy(d => d.InventoryReportListSupplier))
                         {
-                            String begQuantity = "-";
-                            if (Convert.ToDecimal(collection.InventoryReportListBeginningQuantity) != 0)
-                            {
-                                begQuantity = collection.InventoryReportListBeginningQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
-                            }
+                            //String begQuantity = "-";
+                            //if (Convert.ToDecimal(collection.InventoryReportListBeginningQuantity) != 0)
+                            //{
+                            //    begQuantity = collection.InventoryReportListBeginningQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            //}
 
-                            String inQuantity = "-";
-                            if (Convert.ToDecimal(collection.InventoryReportListInQuantity) != 0)
-                            {
-                                inQuantity = collection.InventoryReportListInQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
-                            }
+                            //String inQuantity = "-";
+                            //if (Convert.ToDecimal(collection.InventoryReportListInQuantity) != 0)
+                            //{
+                            //    inQuantity = collection.InventoryReportListInQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            //}
 
-                            String returnQuantity = "-";
-                            if (Convert.ToDecimal(collection.InventoryReportListReturnQuantity) != 0)
-                            {
-                                returnQuantity = collection.InventoryReportListReturnQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
-                            }
+                            //String returnQuantity = "-";
+                            //if (Convert.ToDecimal(collection.InventoryReportListReturnQuantity) != 0)
+                            //{
+                            //    returnQuantity = collection.InventoryReportListReturnQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            //}
 
-                            String soldQuantity = "-";
-                            if (Convert.ToDecimal(collection.InventoryReportListSoldQuantity) != 0)
-                            {
-                                soldQuantity = collection.InventoryReportListSoldQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
-                            }
+                            //String soldQuantity = "-";
+                            //if (Convert.ToDecimal(collection.InventoryReportListSoldQuantity) != 0)
+                            //{
+                            //    soldQuantity = collection.InventoryReportListSoldQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            //}
 
-                            String outQuantity = "-";
-                            if (Convert.ToDecimal(collection.InventoryReportListOutQuantity) != 0)
-                            {
-                                outQuantity = collection.InventoryReportListOutQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
-                            }
+                            //String outQuantity = "-";
+                            //if (Convert.ToDecimal(collection.InventoryReportListOutQuantity) != 0)
+                            //{
+                            //    outQuantity = collection.InventoryReportListOutQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            //}
 
-                            String endQuantity = "-";
-                            if (Convert.ToDecimal(collection.InventoryReportListEndingQuantity) != 0)
-                            {
-                                endQuantity = collection.InventoryReportListEndingQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
-                            }
+                            //String endQuantity = "-";
+                            //if (Convert.ToDecimal(collection.InventoryReportListEndingQuantity) != 0)
+                            //{
+                            //    endQuantity = collection.InventoryReportListEndingQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty);
+                            //}
 
                             String[] data = {
                                 collection.InventoryReportListSupplier.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
                                 collection.InventoryReportListBarcode.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
                                 collection.InventoryReportListItemDescription.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
-                                begQuantity,
-                                inQuantity,
-                                returnQuantity,
-                                soldQuantity,
-                                outQuantity,
-                                endQuantity,
+                                collection.InventoryReportListBeginningQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListInQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListReturnQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListSoldQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListOutQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
+                                collection.InventoryReportListEndingQuantity.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty),
                                 collection.InventoryReportListUnit.Replace(",", String.Empty).Replace("\n", String.Empty).Replace("\t", String.Empty).Replace("\r", String.Empty)
                             };
 
