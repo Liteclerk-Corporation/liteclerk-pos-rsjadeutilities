@@ -156,6 +156,7 @@ namespace RSJadeUtilities.Forms.Software
                                                  Id = "Beg-In-" + d.Id,
                                                  InventoryDate = d.TrnStockIn.StockInDate,
                                                  Supplier = d.MstItem.MstSupplier.Supplier,
+                                                 ItemId = d.ItemId,
                                                  Barcode = d.MstItem.BarCode,
                                                  ItemDescription = d.MstItem.ItemDescription,
                                                  BeginningQuantity = d.Quantity,
@@ -181,6 +182,7 @@ namespace RSJadeUtilities.Forms.Software
                                                    Id = "Beg-Sold-" + d.Id,
                                                    InventoryDate = d.TrnSale.SalesDate,
                                                    Supplier = d.MstItem.MstSupplier.Supplier,
+                                                   ItemId = d.ItemId,
                                                    Barcode = d.MstItem.BarCode,
                                                    ItemDescription = d.MstItem.ItemDescription,
                                                    BeginningQuantity = d.Quantity * -1,
@@ -220,6 +222,7 @@ namespace RSJadeUtilities.Forms.Software
                                     Id = "Beg-Sold-Component" + itemComponent.Id,
                                     InventoryDate = beginningSoldComponent.TrnSale.SalesDate,
                                     Supplier = itemComponent.MstItem1.MstSupplier1.Supplier,
+                                    ItemId = itemComponent.ComponentItemId,
                                     Barcode = itemComponent.MstItem1.BarCode,
                                     ItemDescription = itemComponent.MstItem1.ItemDescription,
                                     BeginningQuantity = 0,
@@ -248,6 +251,7 @@ namespace RSJadeUtilities.Forms.Software
                                                   Id = "Beg-Out-" + d.Id,
                                                   InventoryDate = d.TrnStockOut.StockOutDate,
                                                   Supplier = d.MstItem.MstSupplier.Supplier,
+                                                  ItemId = d.ItemId,
                                                   Barcode = d.MstItem.BarCode,
                                                   ItemDescription = d.MstItem.ItemDescription,
                                                   BeginningQuantity = d.Quantity * -1,
@@ -275,6 +279,7 @@ namespace RSJadeUtilities.Forms.Software
                                                Id = "Cur-In-" + d.Id,
                                                InventoryDate = d.TrnStockIn.StockInDate,
                                                Supplier = d.MstItem.MstSupplier.Supplier,
+                                               ItemId = d.ItemId,
                                                Barcode = d.MstItem.BarCode,
                                                ItemDescription = d.MstItem.ItemDescription,
                                                BeginningQuantity = 0,
@@ -301,6 +306,7 @@ namespace RSJadeUtilities.Forms.Software
                                                  Id = "Cur-Sold-" + d.Id,
                                                  InventoryDate = d.TrnSale.SalesDate,
                                                  Supplier = d.MstItem.MstSupplier.Supplier,
+                                                 ItemId = d.ItemId,
                                                  Barcode = d.MstItem.BarCode,
                                                  ItemDescription = d.MstItem.ItemDescription,
                                                  BeginningQuantity = 0,
@@ -341,6 +347,7 @@ namespace RSJadeUtilities.Forms.Software
                                     Id = "Cur-Sold-Component" + itemComponent.Id,
                                     InventoryDate = currentSoldComponent.TrnSale.SalesDate,
                                     Supplier = itemComponent.MstItem1.MstSupplier1.Supplier,
+                                    ItemId = itemComponent.ComponentItemId,
                                     Barcode = itemComponent.MstItem1.BarCode,
                                     ItemDescription = itemComponent.MstItem1.ItemDescription,
                                     BeginningQuantity = 0,
@@ -370,6 +377,7 @@ namespace RSJadeUtilities.Forms.Software
                                                 Id = "Cur-Out-" + d.Id,
                                                 InventoryDate = d.TrnStockOut.StockOutDate,
                                                 Supplier = d.MstItem.MstSupplier.Supplier,
+                                                ItemId = d.ItemId,
                                                 Barcode = d.MstItem.BarCode,
                                                 ItemDescription = d.MstItem.ItemDescription,
                                                 BeginningQuantity = 0,
@@ -392,6 +400,7 @@ namespace RSJadeUtilities.Forms.Software
                                       group d by new
                                       {
                                           d.Supplier,
+                                          d.ItemId,
                                           d.Barcode,
                                           d.ItemDescription,
                                           d.Unit,
@@ -400,6 +409,7 @@ namespace RSJadeUtilities.Forms.Software
                                       select new Models.MstInventoryReportModel
                                       {
                                           Supplier = g.Key.Supplier,
+                                          ItemId = g.Key.ItemId,
                                           Barcode = g.Key.Barcode,
                                           ItemDescription = g.Key.ItemDescription,
                                           BeginningQuantity = g.Sum(s => s.BeginningQuantity),
@@ -440,6 +450,7 @@ namespace RSJadeUtilities.Forms.Software
                                                  Id = "Beg-In-" + d.Id,
                                                  InventoryDate = d.TrnStockIn.StockInDate,
                                                  Supplier = d.MstItem.MstSupplier.Supplier,
+                                                 ItemId = d.ItemId,
                                                  Barcode = d.MstItem.BarCode,
                                                  ItemDescription = d.MstItem.ItemDescription,
                                                  BeginningQuantity = d.Quantity,
@@ -466,6 +477,7 @@ namespace RSJadeUtilities.Forms.Software
                                                    Id = "Beg-Sold-" + d.Id,
                                                    InventoryDate = d.TrnSale.SalesDate,
                                                    Supplier = d.MstItem.MstSupplier.Supplier,
+                                                   ItemId = d.ItemId,
                                                    Barcode = d.MstItem.BarCode,
                                                    ItemDescription = d.MstItem.ItemDescription,
                                                    BeginningQuantity = d.Quantity * -1,
@@ -505,6 +517,7 @@ namespace RSJadeUtilities.Forms.Software
                                     Id = "Beg-Sold-Component" + itemComponent.Id,
                                     InventoryDate = beginningSoldComponent.TrnSale.SalesDate,
                                     Supplier = itemComponent.MstItem1.MstSupplier1.Supplier,
+                                    ItemId = itemComponent.ComponentItemId,
                                     Barcode = itemComponent.MstItem1.BarCode,
                                     ItemDescription = itemComponent.MstItem1.ItemDescription,
                                     BeginningQuantity = 0,
@@ -534,6 +547,7 @@ namespace RSJadeUtilities.Forms.Software
                                                   Id = "Beg-Out-" + d.Id,
                                                   InventoryDate = d.TrnStockOut.StockOutDate,
                                                   Supplier = d.MstItem.MstSupplier.Supplier,
+                                                  ItemId = d.ItemId,
                                                   Barcode = d.MstItem.BarCode,
                                                   ItemDescription = d.MstItem.ItemDescription,
                                                   BeginningQuantity = d.Quantity * -1,
@@ -562,6 +576,7 @@ namespace RSJadeUtilities.Forms.Software
                                                Id = "Cur-In-" + d.Id,
                                                InventoryDate = d.TrnStockIn.StockInDate,
                                                Supplier = d.MstItem.MstSupplier.Supplier,
+                                               ItemId = d.ItemId,
                                                Barcode = d.MstItem.BarCode,
                                                ItemDescription = d.MstItem.ItemDescription,
                                                BeginningQuantity = 0,
@@ -589,6 +604,7 @@ namespace RSJadeUtilities.Forms.Software
                                                  Id = "Cur-Sold-" + d.Id,
                                                  InventoryDate = d.TrnSale.SalesDate,
                                                  Supplier = d.MstItem.MstSupplier.Supplier,
+                                                 ItemId = d.ItemId,
                                                  Barcode = d.MstItem.BarCode,
                                                  ItemDescription = d.MstItem.ItemDescription,
                                                  BeginningQuantity = 0,
@@ -629,6 +645,7 @@ namespace RSJadeUtilities.Forms.Software
                                     Id = "Cur-Sold-Component" + itemComponent.Id,
                                     InventoryDate = currentSoldComponent.TrnSale.SalesDate,
                                     Supplier = itemComponent.MstItem1.MstSupplier1.Supplier,
+                                    ItemId = itemComponent.ComponentItemId,
                                     Barcode = itemComponent.MstItem1.BarCode,
                                     ItemDescription = itemComponent.MstItem1.ItemDescription,
                                     BeginningQuantity = 0,
@@ -659,6 +676,7 @@ namespace RSJadeUtilities.Forms.Software
                                                 Id = "Cur-Out-" + d.Id,
                                                 InventoryDate = d.TrnStockOut.StockOutDate,
                                                 Supplier = d.MstItem.MstSupplier.Supplier,
+                                                ItemId = d.ItemId,
                                                 Barcode = d.MstItem.BarCode,
                                                 ItemDescription = d.MstItem.ItemDescription,
                                                 BeginningQuantity = 0,
@@ -681,6 +699,7 @@ namespace RSJadeUtilities.Forms.Software
                                       group d by new
                                       {
                                           d.Supplier,
+                                          d.ItemId,
                                           d.Barcode,
                                           d.ItemDescription,
                                           d.Unit,
@@ -689,6 +708,7 @@ namespace RSJadeUtilities.Forms.Software
                                       select new Models.MstInventoryReportModel
                                       {
                                           Supplier = g.Key.Supplier,
+                                          ItemId = g.Key.ItemId,
                                           Barcode = g.Key.Barcode,
                                           ItemDescription = g.Key.ItemDescription,
                                           BeginningQuantity = g.Sum(s => s.BeginningQuantity),
@@ -763,7 +783,30 @@ namespace RSJadeUtilities.Forms.Software
         {
             try
             {
+                if (e.RowIndex > -1)
+                {
 
+                }
+
+                if (e.RowIndex > -1 && dataGridViewInventoryReport.CurrentCell.ColumnIndex == dataGridViewInventoryReport.Columns["InventoryReportListInQuantity"].Index)
+                {
+
+                }
+
+                if (e.RowIndex > -1 && dataGridViewInventoryReport.CurrentCell.ColumnIndex == dataGridViewInventoryReport.Columns["InventoryReportListReturnQuantity"].Index)
+                {
+
+                }
+
+                if (e.RowIndex > -1 && dataGridViewInventoryReport.CurrentCell.ColumnIndex == dataGridViewInventoryReport.Columns["InventoryReportListSoldQuantity"].Index)
+                {
+
+                }
+
+                if (e.RowIndex > -1 && dataGridViewInventoryReport.CurrentCell.ColumnIndex == dataGridViewInventoryReport.Columns["InventoryReportListOutQuantity"].Index)
+                {
+
+                }
             }
             catch (Exception ex)
             {

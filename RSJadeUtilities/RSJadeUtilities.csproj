@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataGridViewModels\DgvInventoryDetailsListModel.cs" />
     <Compile Include="DataGridViewModels\DgvInventoryReportListModel.cs" />
     <Compile Include="DataGridViewModels\DgvUserPriceListModel.cs" />
     <Compile Include="Data\pos.designer.cs">
@@ -95,6 +96,12 @@
     <Compile Include="Forms\Software\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Software\TrnInventoryDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Software\TrnInventoryDetails.Designer.cs">
+      <DependentUpon>TrnInventoryDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Software\UserPriceDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +120,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\MstInventoryDetailsModel.cs" />
     <Compile Include="Models\MstInventoryReportModel.cs" />
     <Compile Include="Models\MstUserPriceModel.cs" />
     <Compile Include="Models\SysConnectionStringModel.cs" />
@@ -130,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Software\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Software\TrnInventoryDetails.resx">
+      <DependentUpon>TrnInventoryDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Software\UserPriceDetailForm.resx">
       <DependentUpon>UserPriceDetailForm.cs</DependentUpon>
