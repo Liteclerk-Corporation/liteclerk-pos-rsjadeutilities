@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace RSJadeUtilities.Forms.Software
 {
-    public partial class TrnInventoryDetails : Form
+    public partial class InventoryDetailForm : Form
     {
         public Data.posDataContext db = new Data.posDataContext(Modules.SysConnectionStringModule.GetConnectionString());
 
@@ -19,7 +19,7 @@ namespace RSJadeUtilities.Forms.Software
         private static Int32 pageNumber = 1, pageSize = 50;
         private PagedList<DataGridViewModels.DgvInventoryDetailsListModel> inventoryDetailsListPageList = new PagedList<DataGridViewModels.DgvInventoryDetailsListModel>(inventoryDetailsListData, pageNumber, pageSize);
 
-        public TrnInventoryDetails(String transactionType, Int32 itemId, DateTime startDate, DateTime endDate)
+        public InventoryDetailForm(String transactionType, Int32 itemId, DateTime startDate, DateTime endDate)
         {
             InitializeComponent();
 
@@ -102,6 +102,8 @@ namespace RSJadeUtilities.Forms.Software
             switch (transactionType)
             {
                 case "IN":
+                    labelTitle.Text = "Stock-In";
+
                     var stockInItems = from d in db.TrnStockInLines
                                        where d.TrnStockIn.IsLocked == true
                                        && d.TrnStockIn.StockInDate >= startDate.Date
@@ -128,6 +130,8 @@ namespace RSJadeUtilities.Forms.Software
 
                     break;
                 case "RETURN":
+                    labelTitle.Text = "Stock-In (Returns)";
+
                     var returnItems = from d in db.TrnStockInLines
                                       where d.TrnStockIn.IsLocked == true
                                       && d.TrnStockIn.StockInDate >= startDate.Date
@@ -154,6 +158,8 @@ namespace RSJadeUtilities.Forms.Software
 
                     break;
                 case "SOLD":
+                    labelTitle.Text = "Sales";
+
                     var soldItems = from d in db.TrnSalesLines
                                     where d.TrnSale.IsLocked == true
                                     && d.TrnSale.IsCancelled == false
@@ -171,7 +177,7 @@ namespace RSJadeUtilities.Forms.Software
                             ReferenceNumber = soldItem.TrnSale.SalesNumber,
                             ReferenceDate = soldItem.TrnSale.SalesDate,
                             Remarks = soldItem.TrnSale.Remarks,
-                            Quantity = soldItem.Quantity
+                            Quantity = soldItem.Quantity * -1
                         });
                     }
 
@@ -183,7 +189,7 @@ namespace RSJadeUtilities.Forms.Software
                                              && d.TrnSale.SalesDate >= startDate.Date
                                              && d.TrnSale.SalesDate <= endDate.Date
                                              && d.MstItem.IsInventory == false
-                                             && d.MstItem.MstItemComponents.Any() == true
+                                             && d.MstItem.MstItemComponents.Where(s => s.ComponentItemId == itemId).Any() == true
                                              && d.MstItem.IsLocked == true
                                              select d;
 
@@ -201,7 +207,7 @@ namespace RSJadeUtilities.Forms.Software
                                         ReferenceNumber = currentSoldComponent.TrnSale.SalesNumber,
                                         ReferenceDate = currentSoldComponent.TrnSale.SalesDate,
                                         Remarks = currentSoldComponent.TrnSale.Remarks,
-                                        Quantity = itemComponent.Quantity * currentSoldComponent.Quantity
+                                        Quantity = (itemComponent.Quantity * currentSoldComponent.Quantity) * -1
                                     });
                                 }
                             }
@@ -209,7 +215,9 @@ namespace RSJadeUtilities.Forms.Software
                     }
 
                     break;
-                case "OT":
+                case "OUT":
+                    labelTitle.Text = "Stock-Out";
+
                     var stockOutItems = from d in db.TrnStockOutLines
                                         where d.TrnStockOut.IsLocked == true
                                         && d.TrnStockOut.StockOutDate >= startDate.Date
@@ -228,7 +236,7 @@ namespace RSJadeUtilities.Forms.Software
                                 ReferenceNumber = stockOutItem.TrnStockOut.StockOutNumber,
                                 ReferenceDate = stockOutItem.TrnStockOut.StockOutDate,
                                 Remarks = stockOutItem.TrnStockOut.Remarks,
-                                Quantity = stockOutItem.Quantity
+                                Quantity = stockOutItem.Quantity * -1
                             });
                         }
                     }

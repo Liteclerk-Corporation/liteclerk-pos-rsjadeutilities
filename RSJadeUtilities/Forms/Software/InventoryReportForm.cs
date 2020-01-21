@@ -53,8 +53,6 @@ namespace RSJadeUtilities.Forms.Software
                                 Supplier = d.Supplier
                             };
 
-
-
             if (suppliers.Any())
             {
                 supplierEntity.AddRange(suppliers.ToList());
@@ -747,6 +745,7 @@ namespace RSJadeUtilities.Forms.Software
                             select new DataGridViewModels.DgvInventoryReportListModel
                             {
                                 InventoryReportListSupplier = d.Supplier,
+                                InventoryReportListItemId = d.ItemId,
                                 InventoryReportListBarcode = d.Barcode,
                                 InventoryReportListItemDescription = d.ItemDescription,
                                 InventoryReportListBeginningQuantity = d.BeginningQuantity.ToString("#,##0.00"),
@@ -783,6 +782,10 @@ namespace RSJadeUtilities.Forms.Software
         {
             try
             {
+                Int32 itemId = Convert.ToInt32(dataGridViewInventoryReport.Rows[dataGridViewInventoryReport.CurrentCell.RowIndex].Cells[dataGridViewInventoryReport.Columns["InventoryReportListItemId"].Index].Value);
+                DateTime dateStart = dateTimePickerDateStart.Value;
+                DateTime dateEnd = dateTimePickerDateEnd.Value;
+
                 if (e.RowIndex > -1)
                 {
 
@@ -790,22 +793,26 @@ namespace RSJadeUtilities.Forms.Software
 
                 if (e.RowIndex > -1 && dataGridViewInventoryReport.CurrentCell.ColumnIndex == dataGridViewInventoryReport.Columns["InventoryReportListInQuantity"].Index)
                 {
-
+                    InventoryDetailForm inventoryDetails = new InventoryDetailForm("IN", itemId, dateStart, dateEnd);
+                    inventoryDetails.ShowDialog();
                 }
 
                 if (e.RowIndex > -1 && dataGridViewInventoryReport.CurrentCell.ColumnIndex == dataGridViewInventoryReport.Columns["InventoryReportListReturnQuantity"].Index)
                 {
-
+                    InventoryDetailForm inventoryDetails = new InventoryDetailForm("RETURN", itemId, dateStart, dateEnd);
+                    inventoryDetails.ShowDialog();
                 }
 
                 if (e.RowIndex > -1 && dataGridViewInventoryReport.CurrentCell.ColumnIndex == dataGridViewInventoryReport.Columns["InventoryReportListSoldQuantity"].Index)
                 {
-
+                    InventoryDetailForm inventoryDetails = new InventoryDetailForm("SOLD", itemId, dateStart, dateEnd);
+                    inventoryDetails.ShowDialog();
                 }
 
                 if (e.RowIndex > -1 && dataGridViewInventoryReport.CurrentCell.ColumnIndex == dataGridViewInventoryReport.Columns["InventoryReportListOutQuantity"].Index)
                 {
-
+                    InventoryDetailForm inventoryDetails = new InventoryDetailForm("OUT", itemId, dateStart, dateEnd);
+                    inventoryDetails.ShowDialog();
                 }
             }
             catch (Exception ex)

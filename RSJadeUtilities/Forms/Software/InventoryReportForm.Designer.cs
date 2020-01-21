@@ -65,6 +65,7 @@
             this.bindingSourceInventoryReport = new System.Windows.Forms.BindingSource(this.components);
             this.folderBrowserDialogGenerateCSV = new System.Windows.Forms.FolderBrowserDialog();
             this.InventoryReportListSupplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryReportListItemId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InventoryReportListBarcode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InventoryReportListItemDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InventoryReportListBeginningQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -136,6 +137,7 @@
             this.dataGridViewInventoryReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewInventoryReport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.InventoryReportListSupplier,
+            this.InventoryReportListItemId,
             this.InventoryReportListBarcode,
             this.InventoryReportListItemDescription,
             this.InventoryReportListBeginningQuantity,
@@ -389,6 +391,14 @@
             this.InventoryReportListSupplier.ReadOnly = true;
             this.InventoryReportListSupplier.Width = 150;
             // 
+            // InventoryReportListItemId
+            // 
+            this.InventoryReportListItemId.DataPropertyName = "InventoryReportListItemId";
+            this.InventoryReportListItemId.HeaderText = "ItemId";
+            this.InventoryReportListItemId.Name = "InventoryReportListItemId";
+            this.InventoryReportListItemId.ReadOnly = true;
+            this.InventoryReportListItemId.Visible = false;
+            // 
             // InventoryReportListBarcode
             // 
             this.InventoryReportListBarcode.DataPropertyName = "InventoryReportListBarcode";
@@ -549,6 +559,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogGenerateCSV;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListSupplier;
+        private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListItemId;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListBarcode;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListItemDescription;
         private System.Windows.Forms.DataGridViewTextBoxColumn InventoryReportListBeginningQuantity;

@@ -1,6 +1,6 @@
 ﻿namespace RSJadeUtilities.Forms.Software
 {
-    partial class TrnInventoryDetails
+    partial class InventoryDetailForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,87 +30,70 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrnInventoryDetails));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InventoryDetailForm));
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelTitle = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridViewInventoryDetails = new System.Windows.Forms.DataGridView();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.textBoxTotalQuantity = new System.Windows.Forms.TextBox();
             this.buttonInventoryDetailsPageListFirst = new System.Windows.Forms.Button();
             this.buttonInventoryDetailsPageListPrevious = new System.Windows.Forms.Button();
             this.buttonInventoryDetailsPageListNext = new System.Windows.Forms.Button();
             this.buttonInventoryDetailsPageListLast = new System.Windows.Forms.Button();
             this.textBoxInventoryDetailsPageNumber = new System.Windows.Forms.TextBox();
-            this.textBoxItemName = new System.Windows.Forms.TextBox();
+            this.dataGridViewInventoryDetails = new System.Windows.Forms.DataGridView();
             this.ColumnReferenceNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnReferenceDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnRemarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnQuantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSpace = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.textBoxItemName = new System.Windows.Forms.TextBox();
             this.bindingSourceInventoryDetails = new System.Windows.Forms.BindingSource(this.components);
-            this.textBoxTotalQuantity = new System.Windows.Forms.TextBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInventoryDetails)).BeginInit();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInventoryDetails)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceInventoryDetails)).BeginInit();
             this.SuspendLayout();
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.labelTitle);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(968, 56);
             this.panel2.TabIndex = 1;
             // 
-            // label1
+            // labelTitle
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(217, 35);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Inventory Details";
+            this.labelTitle.AutoSize = true;
+            this.labelTitle.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTitle.Location = new System.Drawing.Point(12, 9);
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.Size = new System.Drawing.Size(217, 35);
+            this.labelTitle.TabIndex = 1;
+            this.labelTitle.Text = "Inventory Details";
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.dataGridViewInventoryDetails);
+            this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.textBoxItemName);
+            this.panel1.Controls.Add(this.panel3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 56);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(968, 563);
             this.panel1.TabIndex = 2;
             // 
-            // dataGridViewInventoryDetails
-            // 
-            this.dataGridViewInventoryDetails.AllowUserToAddRows = false;
-            this.dataGridViewInventoryDetails.AllowUserToDeleteRows = false;
-            this.dataGridViewInventoryDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridViewInventoryDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewInventoryDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnReferenceNumber,
-            this.ColumnReferenceDate,
-            this.ColumnRemarks,
-            this.ColumnQuantity,
-            this.ColumnSpace});
-            this.dataGridViewInventoryDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewInventoryDetails.Location = new System.Drawing.Point(0, 38);
-            this.dataGridViewInventoryDetails.Name = "dataGridViewInventoryDetails";
-            this.dataGridViewInventoryDetails.ReadOnly = true;
-            this.dataGridViewInventoryDetails.RowTemplate.Height = 24;
-            this.dataGridViewInventoryDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewInventoryDetails.Size = new System.Drawing.Size(968, 525);
-            this.dataGridViewInventoryDetails.TabIndex = 30;
-            // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.White;
+            this.panel5.Controls.Add(this.label2);
             this.panel5.Controls.Add(this.textBoxTotalQuantity);
             this.panel5.Controls.Add(this.buttonInventoryDetailsPageListFirst);
             this.panel5.Controls.Add(this.buttonInventoryDetailsPageListPrevious);
@@ -122,6 +105,19 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(968, 53);
             this.panel5.TabIndex = 31;
+            // 
+            // textBoxTotalQuantity
+            // 
+            this.textBoxTotalQuantity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxTotalQuantity.BackColor = System.Drawing.Color.White;
+            this.textBoxTotalQuantity.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxTotalQuantity.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.textBoxTotalQuantity.Location = new System.Drawing.Point(753, 14);
+            this.textBoxTotalQuantity.Name = "textBoxTotalQuantity";
+            this.textBoxTotalQuantity.ReadOnly = true;
+            this.textBoxTotalQuantity.Size = new System.Drawing.Size(203, 27);
+            this.textBoxTotalQuantity.TabIndex = 18;
+            this.textBoxTotalQuantity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // buttonInventoryDetailsPageListFirst
             // 
@@ -194,14 +190,26 @@
             this.textBoxInventoryDetailsPageNumber.TabIndex = 17;
             this.textBoxInventoryDetailsPageNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // textBoxItemName
+            // dataGridViewInventoryDetails
             // 
-            this.textBoxItemName.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBoxItemName.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxItemName.Location = new System.Drawing.Point(0, 0);
-            this.textBoxItemName.Name = "textBoxItemName";
-            this.textBoxItemName.Size = new System.Drawing.Size(968, 38);
-            this.textBoxItemName.TabIndex = 32;
+            this.dataGridViewInventoryDetails.AllowUserToAddRows = false;
+            this.dataGridViewInventoryDetails.AllowUserToDeleteRows = false;
+            this.dataGridViewInventoryDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridViewInventoryDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewInventoryDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnReferenceNumber,
+            this.ColumnReferenceDate,
+            this.ColumnRemarks,
+            this.ColumnQuantity,
+            this.ColumnSpace});
+            this.dataGridViewInventoryDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewInventoryDetails.Location = new System.Drawing.Point(0, 38);
+            this.dataGridViewInventoryDetails.Name = "dataGridViewInventoryDetails";
+            this.dataGridViewInventoryDetails.ReadOnly = true;
+            this.dataGridViewInventoryDetails.RowTemplate.Height = 24;
+            this.dataGridViewInventoryDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewInventoryDetails.Size = new System.Drawing.Size(968, 472);
+            this.dataGridViewInventoryDetails.TabIndex = 30;
             // 
             // ColumnReferenceNumber
             // 
@@ -245,15 +253,38 @@
             this.ColumnSpace.Name = "ColumnSpace";
             this.ColumnSpace.ReadOnly = true;
             // 
-            // textBoxTotalQuantity
+            // textBoxItemName
             // 
-            this.textBoxTotalQuantity.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.textBoxTotalQuantity.Location = new System.Drawing.Point(701, 11);
-            this.textBoxTotalQuantity.Name = "textBoxTotalQuantity";
-            this.textBoxTotalQuantity.Size = new System.Drawing.Size(255, 32);
-            this.textBoxTotalQuantity.TabIndex = 18;
+            this.textBoxItemName.BackColor = System.Drawing.Color.White;
+            this.textBoxItemName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxItemName.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxItemName.Location = new System.Drawing.Point(0, 0);
+            this.textBoxItemName.Name = "textBoxItemName";
+            this.textBoxItemName.ReadOnly = true;
+            this.textBoxItemName.Size = new System.Drawing.Size(968, 38);
+            this.textBoxItemName.TabIndex = 32;
+            this.textBoxItemName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // TrnInventoryDetails
+            // panel3
+            // 
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(968, 563);
+            this.panel3.TabIndex = 33;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(670, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 28);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "TOTAL:";
+            // 
+            // InventoryDetailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -263,15 +294,16 @@
             this.Font = new System.Drawing.Font("Segoe UI", 10.2F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "TrnInventoryDetails";
+            this.Name = "InventoryDetailForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inventory Details";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInventoryDetails)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInventoryDetails)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceInventoryDetails)).EndInit();
             this.ResumeLayout(false);
 
@@ -280,7 +312,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dataGridViewInventoryDetails;
         private System.Windows.Forms.Panel panel5;
@@ -297,5 +329,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSpace;
         private System.Windows.Forms.BindingSource bindingSourceInventoryDetails;
         private System.Windows.Forms.TextBox textBoxTotalQuantity;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label label2;
     }
 }

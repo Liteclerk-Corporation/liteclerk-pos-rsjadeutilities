@@ -96,11 +96,11 @@
     <Compile Include="Forms\Software\MenuForm.Designer.cs">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Software\TrnInventoryDetails.cs">
+    <Compile Include="Forms\Software\InventoryDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Software\TrnInventoryDetails.Designer.cs">
-      <DependentUpon>TrnInventoryDetails.cs</DependentUpon>
+    <Compile Include="Forms\Software\InventoryDetailForm.Designer.cs">
+      <DependentUpon>InventoryDetailForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Software\UserPriceDetailForm.cs">
       <SubType>Form</SubType>
@@ -139,8 +139,8 @@
     <EmbeddedResource Include="Forms\Software\MenuForm.resx">
       <DependentUpon>MenuForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Software\TrnInventoryDetails.resx">
-      <DependentUpon>TrnInventoryDetails.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Software\InventoryDetailForm.resx">
+      <DependentUpon>InventoryDetailForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Software\UserPriceDetailForm.resx">
       <DependentUpon>UserPriceDetailForm.cs</DependentUpon>
