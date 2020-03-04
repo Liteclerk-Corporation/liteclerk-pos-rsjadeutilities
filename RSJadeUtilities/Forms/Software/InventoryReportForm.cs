@@ -55,7 +55,7 @@ namespace RSJadeUtilities.Forms.Software
 
             if (suppliers.Any())
             {
-                supplierEntity.AddRange(suppliers.ToList());
+                supplierEntity.AddRange(suppliers.OrderBy(d => d.Supplier).ToList());
 
                 comboBoxSupplier.DataSource = supplierEntity;
                 comboBoxSupplier.ValueMember = "Id";
@@ -73,20 +73,20 @@ namespace RSJadeUtilities.Forms.Software
                 }
             }
         }
-
-
+        
         public void UpdateInventoryReportDataSource()
         {
             Int32 supplierId = Convert.ToInt32(comboBoxSupplier.SelectedValue);
             DateTime dateStart = dateTimePickerDateStart.Value;
             DateTime dateEnd = dateTimePickerDateEnd.Value;
+            String filter = textBoxSearch.Text;
 
-            SetInventoryReportDataSourceAsync(supplierId, dateStart, dateEnd);
+            SetInventoryReportDataSourceAsync(supplierId, dateStart, dateEnd, filter);
         }
 
-        public async void SetInventoryReportDataSourceAsync(Int32 supplierId, DateTime dateStart, DateTime dateEnd)
+        public async void SetInventoryReportDataSourceAsync(Int32 supplierId, DateTime dateStart, DateTime dateEnd, String filter)
         {
-            List<DataGridViewModels.DgvInventoryReportListModel> getInventoryReportData = await GetInventoryReportDataTask(supplierId, dateStart, dateEnd);
+            List<DataGridViewModels.DgvInventoryReportListModel> getInventoryReportData = await GetInventoryReportDataTask(supplierId, dateStart, dateEnd, filter);
             if (getInventoryReportData.Any())
             {
                 inventoryReportListData = getInventoryReportData;
@@ -139,7 +139,7 @@ namespace RSJadeUtilities.Forms.Software
             }
         }
 
-        private List<Models.MstInventoryReportModel> GetInventoryReportList(Int32 supplierId, DateTime dateStart, DateTime dateEnd)
+        private List<Models.MstInventoryReportModel> GetInventoryReportList(Int32 supplierId, DateTime dateStart, DateTime dateEnd, String filter)
         {
             if (supplierId == 0)
             {
@@ -424,7 +424,7 @@ namespace RSJadeUtilities.Forms.Software
                     buttonGet.Text = "Get";
                     buttonGet.Enabled = true;
 
-                    return inventories.OrderBy(d => d.ItemDescription).ToList();
+                    return inventories.Where(d => d.Supplier.ToUpper().Contains(filter.ToUpper()) == true || d.Barcode.ToUpper().Contains(filter.ToUpper()) == true || d.ItemDescription.ToUpper().Contains(filter.ToUpper()) == true || d.Unit.ToUpper().Contains(filter.ToUpper()) == true).OrderBy(d => d.ItemDescription).ToList();
                 }
                 else
                 {
@@ -723,7 +723,7 @@ namespace RSJadeUtilities.Forms.Software
                     buttonGet.Text = "Get";
                     buttonGet.Enabled = true;
 
-                    return inventories.OrderBy(d => d.ItemDescription).ToList();
+                    return inventories.Where(d => d.Supplier.ToUpper().Contains(filter.ToUpper()) == true || d.Barcode.ToUpper().Contains(filter.ToUpper()) == true || d.ItemDescription.ToUpper().Contains(filter.ToUpper()) == true || d.Unit.ToUpper().Contains(filter.ToUpper()) == true).OrderBy(d => d.ItemDescription).ToList();
                 }
                 else
                 {
@@ -736,9 +736,9 @@ namespace RSJadeUtilities.Forms.Software
 
         }
 
-        private Task<List<DataGridViewModels.DgvInventoryReportListModel>> GetInventoryReportDataTask(Int32 supplierId, DateTime dateStart, DateTime dateEnd)
+        private Task<List<DataGridViewModels.DgvInventoryReportListModel>> GetInventoryReportDataTask(Int32 supplierId, DateTime dateStart, DateTime dateEnd, String filter)
         {
-            List<Models.MstInventoryReportModel> listInventoryReport = GetInventoryReportList(supplierId, dateStart, dateEnd);
+            List<Models.MstInventoryReportModel> listInventoryReport = GetInventoryReportList(supplierId, dateStart, dateEnd, filter);
             if (listInventoryReport.Any())
             {
                 var items = from d in listInventoryReport
@@ -909,7 +909,7 @@ namespace RSJadeUtilities.Forms.Software
 
         }
 
-        private void buttonGet_Click(object sender, EventArgs e)
+        public void fetchData()
         {
             buttonGet.Text = "Loading...";
             buttonGet.Enabled = false;
@@ -922,6 +922,19 @@ namespace RSJadeUtilities.Forms.Software
             else
             {
                 UpdateInventoryReportDataSource();
+            }
+        }
+
+        private void buttonGet_Click(object sender, EventArgs e)
+        {
+            fetchData();
+        }
+
+        private void textBoxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                fetchData();
             }
         }
 
