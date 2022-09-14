@@ -46,21 +46,21 @@
             this.UserPriceListPriceDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.bindingSourceUserPrice = new System.Windows.Forms.BindingSource(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.bindingSourceUserPrice = new System.Windows.Forms.BindingSource(this.components);
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUserPrice)).BeginInit();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceUserPrice)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -207,6 +207,7 @@
             this.dataGridViewUserPrice.Location = new System.Drawing.Point(12, 73);
             this.dataGridViewUserPrice.Name = "dataGridViewUserPrice";
             this.dataGridViewUserPrice.ReadOnly = true;
+            this.dataGridViewUserPrice.RowHeadersWidth = 51;
             this.dataGridViewUserPrice.RowTemplate.Height = 24;
             this.dataGridViewUserPrice.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewUserPrice.Size = new System.Drawing.Size(953, 410);
@@ -218,21 +219,26 @@
             this.UserPriceButtonDelete.DataPropertyName = "UserPriceButtonDelete";
             this.UserPriceButtonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.UserPriceButtonDelete.HeaderText = "Delete";
+            this.UserPriceButtonDelete.MinimumWidth = 6;
             this.UserPriceButtonDelete.Name = "UserPriceButtonDelete";
             this.UserPriceButtonDelete.ReadOnly = true;
+            this.UserPriceButtonDelete.Width = 125;
             // 
             // UserPriceListId
             // 
             this.UserPriceListId.DataPropertyName = "UserPriceListId";
             this.UserPriceListId.HeaderText = "Id";
+            this.UserPriceListId.MinimumWidth = 6;
             this.UserPriceListId.Name = "UserPriceListId";
             this.UserPriceListId.ReadOnly = true;
             this.UserPriceListId.Visible = false;
+            this.UserPriceListId.Width = 125;
             // 
             // UserPriceListPriceDescription
             // 
             this.UserPriceListPriceDescription.DataPropertyName = "UserPriceListPriceDescription";
             this.UserPriceListPriceDescription.HeaderText = "Price Description";
+            this.UserPriceListPriceDescription.MinimumWidth = 6;
             this.UserPriceListPriceDescription.Name = "UserPriceListPriceDescription";
             this.UserPriceListPriceDescription.ReadOnly = true;
             this.UserPriceListPriceDescription.Width = 350;
@@ -261,26 +267,6 @@
             this.panel3.Size = new System.Drawing.Size(977, 102);
             this.panel3.TabIndex = 5;
             // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(977, 56);
-            this.panel2.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(133, 35);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "User Price";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -297,9 +283,9 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(116, 40);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(200, 23);
+            this.label5.Size = new System.Drawing.Size(236, 23);
             this.label5.TabIndex = 10;
-            this.label5.Text = "Version: 1.20191126.NOR";
+            this.label5.Text = "Version: 1.202209141645.NOR";
             // 
             // label7
             // 
@@ -321,6 +307,26 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(977, 56);
+            this.panel2.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(133, 35);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "User Price";
             // 
             // UserPriceForm
             // 
@@ -345,10 +351,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUserPrice)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceUserPrice)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

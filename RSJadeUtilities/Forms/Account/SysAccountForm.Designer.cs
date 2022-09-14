@@ -33,6 +33,9 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,9 +43,6 @@
             this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -97,6 +97,37 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(421, 93);
             this.panel3.TabIndex = 5;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(116, 59);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(242, 23);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Developer: Easyfis Corporation";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(116, 36);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(236, 23);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Version: 1.202209141645.NOR";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(115, 11);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(151, 25);
+            this.label4.TabIndex = 1;
+            this.label4.Text = "RS Jade Utilities";
             // 
             // pictureBox1
             // 
@@ -162,37 +193,6 @@
             this.label1.Size = new System.Drawing.Size(80, 35);
             this.label1.TabIndex = 1;
             this.label1.Text = "Login";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(115, 11);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(151, 25);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "RS Jade Utilities";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(116, 36);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(200, 23);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Version: 1.20191126.NOR";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(116, 59);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(242, 23);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Developer: Easyfis Corporation";
             // 
             // SysAccountForm
             // 
